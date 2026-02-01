@@ -1,0 +1,272 @@
+"use client";
+
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps, FC, ReactNode } from "react";
+import React, { isValidElement } from "react";
+import type { ButtonProps as AriaButtonProps } from "react-aria-components";
+import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
+import { cx, sortCx } from "@/utils/cx";
+import { isReactComponent } from "@/utils/is-react-component";
+
+export const styles = sortCx({
+    common: {
+        root: [
+            "group relative inline-flex h-max cursor-pointer items-center justify-center whitespace-nowrap outline-brand before:absolute focus-visible:outline-2 focus-visible:outline-offset-2",
+            // Transition for all properties including transform (for shrink effect)
+            "transition-all duration-150 ease-out",
+            // Click: shrink a bit (support both CSS :active and React Aria data-pressed)
+            "active:scale-[0.97] data-pressed:scale-[0.97]",
+            // When button is used within `InputGroup`
+            "in-data-input-wrapper:shadow-xs in-data-input-wrapper:focus:!z-50 in-data-input-wrapper:in-data-leading:-mr-px in-data-input-wrapper:in-data-leading:rounded-r-none in-data-input-wrapper:in-data-leading:before:rounded-r-none in-data-input-wrapper:in-data-trailing:-ml-px in-data-input-wrapper:in-data-trailing:rounded-l-none in-data-input-wrapper:in-data-trailing:before:rounded-l-none",
+            // Disabled styles
+            "disabled:cursor-not-allowed disabled:text-fg-disabled disabled:active:scale-100",
+            // Icon styles
+            "disabled:*:data-icon:text-fg-disabled_subtle",
+            // Same as `icon` but for SSR icons that cannot be passed to the client as functions.
+            "*:data-icon:pointer-events-none *:data-icon:size-5 *:data-icon:shrink-0 *:data-icon:transition-inherit-all",
+        ].join(" "),
+        icon: "pointer-events-none size-5 shrink-0 transition-inherit-all",
+    },
+    sizes: {
+        sm: {
+            root: [
+                "gap-1 rounded-2xl px-6 py-2 text-sm font-semibold before:rounded-[calc(2rem-1px)] data-icon-only:p-2",
+                "in-data-input-wrapper:px-6 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5",
+            ].join(" "),
+            linkRoot: "gap-1",
+        },
+        md: {
+            root: [
+                "gap-1 rounded-2xl px-8 py-2.5 text-sm font-semibold before:rounded-[calc(2rem-1px)] data-icon-only:p-2.5",
+                "in-data-input-wrapper:gap-1.5 in-data-input-wrapper:px-8 in-data-input-wrapper:text-md in-data-input-wrapper:data-icon-only:p-3",
+            ].join(" "),
+            linkRoot: "gap-1",
+        },
+        lg: {
+            root: "gap-1.5 rounded-2xl px-10 py-3 text-md font-semibold before:rounded-[calc(2rem-1px)] data-icon-only:p-3",
+            linkRoot: "gap-1.5",
+        },
+        xl: {
+            root: "gap-1.5 rounded-2xl px-12 py-3 text-md font-semibold before:rounded-[calc(2rem-1px)] data-icon-only:p-3.5",
+            linkRoot: "gap-1.5",
+        },
+    },
+
+    colors: {
+        primary: {
+            root: [
+                "bg-white text-black shadow-xs ring-1 ring-inset hover:bg-gray-200 active:bg-gray-300 data-loading:bg-gray-200 data-pressed:bg-gray-300",
+                // Gradient border effect using before pseudo-element (inner border)
+                "before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-gradient-to-b before:from-brand-200 before:via-brand-900 before:to-brand-600 before:p-px before:transition-[background] before:duration-200",
+                // Hover/focus: brighter gradient inner border (but not on active/pressed - keep border stable on click)
+                "hover:before:from-brand-100 hover:before:via-brand-700 hover:before:to-brand-500 focus-visible:before:from-brand-100 focus-visible:before:via-brand-700 focus-visible:before:to-brand-500",
+                // Disabled styles
+                "disabled:bg-disabled disabled:text-fg-disabled disabled:shadow-xs disabled:ring-disabled_subtle disabled:before:from-brand-200 disabled:before:via-brand-900 disabled:before:to-brand-600",
+                // Icon styles
+                "*:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-tertiary",
+            ].join(" "),
+        },
+        secondary: {
+            root: [
+                "bg-primary text-secondary shadow-xs-skeumorphic ring-1 ring-primary ring-inset hover:bg-primary_hover hover:text-secondary_hover active:bg-secondary data-loading:bg-primary_hover data-pressed:bg-secondary",
+                // Disabled styles
+                "disabled:shadow-xs disabled:ring-disabled_subtle",
+                // Icon styles
+                "*:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-quaternary_hover",
+            ].join(" "),
+        },
+        tertiary: {
+            root: [
+                "text-tertiary hover:bg-primary_hover hover:text-tertiary_hover active:bg-secondary data-loading:bg-primary_hover data-pressed:bg-secondary",
+                // Icon styles
+                "*:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-quaternary_hover",
+            ].join(" "),
+        },
+        "link-gray": {
+            root: [
+                "justify-normal rounded p-0! text-gray-700 hover:text-gray-600",
+                // Inner text underline
+                "*:data-text:underline *:data-text:decoration-transparent *:data-text:underline-offset-2 hover:*:data-text:decoration-current",
+                // Icon styles
+                "*:data-icon:text-gray-700 hover:*:data-icon:text-gray-600",
+            ].join(" "),
+        },
+        "link-color": {
+            root: [
+                "justify-normal rounded p-0! text-brand-900 hover:text-brand-700",
+                // Inner text underline
+                "*:data-text:underline *:data-text:decoration-transparent *:data-text:underline-offset-2 hover:*:data-text:decoration-current",
+                // Icon styles
+                "*:data-icon:text-brand-800 hover:*:data-icon:text-brand-600",
+            ].join(" "),
+        },
+        "primary-destructive": {
+            root: [
+                "bg-error-solid text-white shadow-xs-skeumorphic ring-1 ring-transparent outline-error ring-inset hover:bg-error-solid_hover active:bg-error-700 data-loading:bg-error-solid_hover data-pressed:bg-error-700",
+                // Inner border gradient
+                "before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0%",
+                // Disabled styles
+                "disabled:bg-disabled disabled:shadow-xs disabled:ring-disabled_subtle",
+                // Icon styles
+                "*:data-icon:text-button-destructive-primary-icon hover:*:data-icon:text-button-destructive-primary-icon_hover",
+            ].join(" "),
+        },
+        "secondary-destructive": {
+            root: [
+                "bg-primary text-error-primary shadow-xs-skeumorphic ring-1 ring-error_subtle outline-error ring-inset hover:bg-error-primary hover:text-error-primary_hover active:bg-error-secondary data-loading:bg-error-primary data-pressed:bg-error-secondary",
+                // Disabled styles
+                "disabled:bg-primary disabled:shadow-xs disabled:ring-disabled_subtle",
+                // Icon styles
+                "*:data-icon:text-fg-error-secondary hover:*:data-icon:text-fg-error-primary",
+            ].join(" "),
+        },
+        "tertiary-destructive": {
+            root: [
+                "text-error-primary outline-error hover:bg-error-primary hover:text-error-primary_hover active:bg-error-secondary data-loading:bg-error-primary data-pressed:bg-error-secondary",
+                // Icon styles
+                "*:data-icon:text-fg-error-secondary hover:*:data-icon:text-fg-error-primary",
+            ].join(" "),
+        },
+        "link-destructive": {
+            root: [
+                "justify-normal rounded p-0! text-error-primary outline-error hover:text-error-primary_hover",
+                // Inner text underline
+                "*:data-text:underline *:data-text:decoration-transparent *:data-text:underline-offset-2 hover:*:data-text:decoration-current",
+                // Icon styles
+                "*:data-icon:text-fg-error-secondary hover:*:data-icon:text-fg-error-primary",
+            ].join(" "),
+        },
+    },
+});
+
+/**
+ * Common props shared between button and anchor variants
+ */
+export interface CommonProps {
+    /** Disables the button and shows a disabled state */
+    isDisabled?: boolean;
+    /** Shows a loading spinner and disables the button */
+    isLoading?: boolean;
+    /** The size variant of the button */
+    size?: keyof typeof styles.sizes;
+    /** The color variant of the button */
+    color?: keyof typeof styles.colors;
+    /** Icon component or element to show before the text */
+    iconLeading?: FC<{ className?: string }> | ReactNode;
+    /** Icon component or element to show after the text */
+    iconTrailing?: FC<{ className?: string }> | ReactNode;
+    /** Removes horizontal padding from the text content */
+    noTextPadding?: boolean;
+    /** When true, keeps the text visible during loading state */
+    showTextWhileLoading?: boolean;
+}
+
+/**
+ * Props for the button variant (non-link)
+ */
+export interface ButtonProps extends CommonProps, DetailedHTMLProps<Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color" | "slot">, HTMLButtonElement> {
+    /** Slot name for react-aria component */
+    slot?: AriaButtonProps["slot"];
+}
+
+/**
+ * Props for the link variant (anchor tag)
+ */
+interface LinkProps extends CommonProps, DetailedHTMLProps<Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "color">, HTMLAnchorElement> {}
+
+/** Union type of button and link props */
+export type Props = ButtonProps | LinkProps;
+
+export const Button = ({
+    size = "sm",
+    color = "primary",
+    children,
+    className,
+    noTextPadding,
+    iconLeading: IconLeading,
+    iconTrailing: IconTrailing,
+    isDisabled: disabled,
+    isLoading: loading,
+    showTextWhileLoading,
+    ...otherProps
+}: Props) => {
+    const href = "href" in otherProps ? otherProps.href : undefined;
+    const Component = href ? AriaLink : AriaButton;
+
+    const isIcon = (IconLeading || IconTrailing) && !children;
+    const isLinkType = ["link-gray", "link-color", "link-destructive"].includes(color);
+
+    noTextPadding = isLinkType || noTextPadding;
+
+    let props = {};
+
+    if (href) {
+        props = {
+            ...otherProps,
+
+            href: disabled ? undefined : href,
+        };
+    } else {
+        props = {
+            ...otherProps,
+
+            type: otherProps.type || "button",
+            isPending: loading,
+        };
+    }
+
+    return (
+        <Component
+            data-loading={loading ? true : undefined}
+            data-icon-only={isIcon ? true : undefined}
+            {...props}
+            isDisabled={disabled}
+            className={cx(
+                styles.common.root,
+                styles.sizes[size].root,
+                styles.colors[color].root,
+                isLinkType && styles.sizes[size].linkRoot,
+                (loading || (href && (disabled || loading))) && "pointer-events-none",
+                // If in `loading` state, hide everything except the loading icon (and text if `showTextWhileLoading` is true).
+                loading && (showTextWhileLoading ? "[&>*:not([data-icon=loading]):not([data-text])]:hidden" : "[&>*:not([data-icon=loading])]:invisible"),
+                className,
+            )}
+        >
+            {/* Leading icon */}
+            {isValidElement(IconLeading) && IconLeading}
+            {isReactComponent(IconLeading) && <IconLeading data-icon="leading" className={styles.common.icon} />}
+
+            {loading && (
+                <svg
+                    fill="none"
+                    data-icon="loading"
+                    viewBox="0 0 20 20"
+                    className={cx(styles.common.icon, !showTextWhileLoading && "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2")}
+                >
+                    {/* Background circle */}
+                    <circle className="stroke-current opacity-30" cx="10" cy="10" r="8" fill="none" strokeWidth="2" />
+                    {/* Spinning circle */}
+                    <circle
+                        className="origin-center animate-spin stroke-current"
+                        cx="10"
+                        cy="10"
+                        r="8"
+                        fill="none"
+                        strokeWidth="2"
+                        strokeDasharray="12.5 50"
+                        strokeLinecap="round"
+                    />
+                </svg>
+            )}
+
+            {children && (
+                <span data-text className={cx("transition-inherit-all", !noTextPadding && "px-0.5")}>
+                    {children}
+                </span>
+            )}
+
+            {/* Trailing icon */}
+            {isValidElement(IconTrailing) && IconTrailing}
+            {isReactComponent(IconTrailing) && <IconTrailing data-icon="trailing" className={styles.common.icon} />}
+        </Component>
+    );
+};
