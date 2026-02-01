@@ -137,7 +137,7 @@ const SelectValue = ({ isOpen, isFocused, isDisabled, size, variant, placeholder
     );
 };
 
-export const SelectContext = createContext<{ size: "sm" | "md"; variant: "light" | "dark" }>({ size: "sm", variant: "light" });
+export const SelectContext = createContext<{ size: "sm" | "md"; variant?: "light" | "dark" }>({ size: "sm", variant: "light" });
 
 const Select = ({
     placeholder = "Select",
