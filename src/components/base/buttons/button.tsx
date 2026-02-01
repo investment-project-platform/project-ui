@@ -55,12 +55,8 @@ export const styles = sortCx({
         primary: {
             root: [
                 "bg-white text-black shadow-xs ring-1 ring-inset hover:bg-gray-200 active:bg-gray-300 data-loading:bg-gray-200 data-pressed:bg-gray-300",
-                // Gradient border effect using before pseudo-element (inner border)
-                "before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-gradient-to-b before:from-brand-200 before:via-brand-900 before:to-brand-600 before:p-px before:transition-[background] before:duration-200",
-                // Hover/focus: brighter gradient inner border (but not on active/pressed - keep border stable on click)
-                "hover:before:from-brand-100 hover:before:via-brand-700 hover:before:to-brand-500 focus-visible:before:from-brand-100 focus-visible:before:via-brand-700 focus-visible:before:to-brand-500",
                 // Disabled styles
-                "disabled:bg-disabled disabled:text-fg-disabled disabled:shadow-xs disabled:ring-disabled_subtle disabled:before:from-brand-200 disabled:before:via-brand-900 disabled:before:to-brand-600",
+                "disabled:bg-disabled disabled:text-fg-disabled disabled:shadow-xs disabled:ring-disabled_subtle",
                 // Icon styles
                 "*:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-tertiary",
             ].join(" "),
