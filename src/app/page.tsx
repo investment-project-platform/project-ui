@@ -18,7 +18,7 @@ export default function HomePage() {
                 <HeroSection />
 
                 {/* White content card floating over dark bg, small overlap into hero bottom */}
-                <div className="relative z-10 -mt-6 rounded-xl bg-white md:-mt-10 md:rounded-xl">
+                <div className="relative z-10 -mt-6 overflow-hidden rounded-xl bg-white md:-mt-10 md:rounded-xl">
                     <HowWeWorkSection />
                     <ProfitFormulaSection />
                 </div>

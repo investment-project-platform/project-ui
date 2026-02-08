@@ -45,66 +45,66 @@ const InstagramIcon = () => (
 
 export const LandingFooter = () => {
     return (
-        <footer className="relative overflow-hidden rounded-t-xl bg-black">
-            {/* Top section: email + nav */}
-            <div className="border-white/10 px-6 py-8 md:px-16 md:py-12">
-                <div className="flex flex-col gap-8 md:flex-row md:justify-between">
-                    <div className="flex flex-col gap-4">
-                        <span className="font-display text-3xl font-bold text-brand-500 uppercase lg:text-[56px]">Proєсt@gmail.com</span>
-                        <Button
-                            href="mailto:project.su.main@gmail.com"
-                            size="md"
-                            color="primary"
-                            iconLeading={<Mail01 />}
-                            className="gradient-border-light w-fit !shadow-none !ring-0"
-                        >
-                            Написати на пошту
-                        </Button>
-                    </div>
-
-                    <nav className="flex flex-row flex-wrap gap-4 md:flex-col md:items-end">
-                        {navItems.map((item) => (
-                            <a
-                                key={item.href}
-                                href={item.href}
-                                className="cursor-pointer rounded-2xl font-body text-md font-semibold text-white transition-colors hover:text-white/70"
+        <footer className="relative overflow-hidden rounded-t-xl bg-black px-6 pt-8 md:px-16 md:pt-12">
+            <div className="mx-auto max-w-[1320px]">
+                {/* Top section: email + nav */}
+                <div className="mb-20 md:mb-40">
+                    <div className="flex flex-col gap-8 md:flex-row md:justify-between">
+                        <div className="flex flex-col gap-4">
+                            <span className="font-display text-3xl font-bold text-brand-500 uppercase lg:text-[56px]">Proєсt@gmail.com</span>
+                            <Button
+                                href="mailto:project.su.main@gmail.com"
+                                size="md"
+                                color="primary"
+                                iconLeading={<Mail01 />}
+                                className="gradient-border-light w-fit !shadow-none !ring-0"
                             >
-                                {item.label}
-                            </a>
-                        ))}
-                    </nav>
-                </div>
-            </div>
+                                Написати на пошту
+                            </Button>
+                        </div>
 
-            {/* Bottom section: social + email */}
-            <div className="px-6 pt-8 pb-2 md:px-16 md:pt-12">
-                <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-                    <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-4">
-                        <a
-                            href="https://t.me/project"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-white/20 px-5 py-2.5 font-body text-md font-semibold text-white transition-colors hover:bg-white/10"
-                        >
-                            <TelegramIcon />
-                            Telegram
-                        </a>
-                        <a
-                            href="https://instagram.com/project"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-white/20 px-5 py-2.5 font-body text-md font-semibold text-white transition-colors hover:bg-white/10"
-                        >
-                            <InstagramIcon />
-                            Instagram
-                        </a>
+                        <nav className="flex gap-4 flex-col md:items-end">
+                            {navItems.map((item) => (
+                                <a
+                                    key={item.href}
+                                    href={item.href}
+                                    className="cursor-pointer rounded-2xl font-body text-md font-semibold text-white transition-colors hover:text-white/70"
+                                >
+                                    {item.label}
+                                </a>
+                            ))}
+                        </nav>
                     </div>
-
-                    <span className="font-body text-sm text-brand-500">proєct@gmail.com</span>
                 </div>
-            </div>
 
-            <div className="px-6 md:px-16">
+                {/* Bottom section: social + email */}
+                <div className="pt-8 pb-2 md:pt-12">
+                    <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+                        <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-4">
+                            <a
+                                href="https://t.me/project"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-white/20 px-5 py-2.5 font-body text-md font-semibold text-white transition-colors hover:bg-white/10"
+                            >
+                                <TelegramIcon />
+                                Telegram
+                            </a>
+                            <a
+                                href="https://instagram.com/project"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-white/20 px-5 py-2.5 font-body text-md font-semibold text-white transition-colors hover:bg-white/10"
+                            >
+                                <InstagramIcon />
+                                Instagram
+                            </a>
+                        </div>
+
+                        <span className="font-body text-sm text-brand-500">proєct@gmail.com</span>
+                    </div>
+                </div>
+
                 <BottomBanner className="relative w-full" aria-hidden="true" />
             </div>
         </footer>
