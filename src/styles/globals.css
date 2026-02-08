@@ -28,6 +28,10 @@
     transition-timing-function: inherit;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 html,
 body {
     font-family: var(--font-body);
@@ -37,6 +41,53 @@ body {
     font-variant-ligatures: contextual;
     -webkit-font-kerning: normal;
     font-kerning: normal;
+}
+
+/* Landing page gradient border utilities */
+.gradient-border-light::after,
+.gradient-border-dark::after,
+.gradient-border-header::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+}
+
+.gradient-border-light::after {
+    background: linear-gradient(
+        0deg,
+        rgba(178, 163, 253, 1) 0%,
+        rgba(66, 71, 139, 1) 27%,
+        rgba(178, 163, 253, 1) 82%,
+        rgba(227, 221, 255, 1) 100%
+    );
+}
+
+.gradient-border-dark::after {
+    background: linear-gradient(
+        0deg,
+        rgba(64, 69, 135, 0.96) 0%,
+        rgba(66, 71, 139, 1) 0%,
+        rgba(45, 45, 72, 1) 55%,
+        rgba(66, 71, 139, 1) 95%
+    );
+}
+
+.gradient-border-header::after {
+    background: linear-gradient(
+        0deg,
+        rgba(64, 69, 135, 0.96) 0%,
+        rgba(178, 163, 253, 1) 2%,
+        rgba(66, 71, 139, 1) 9%,
+        rgba(17, 19, 37, 0) 100%
+    );
 }
 
 /* Hide the default expand arrow on Safari.  */

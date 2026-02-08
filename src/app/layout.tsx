@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Lato, Manrope, Mulish } from "next/font/google";
+import { Lato, Manrope, Mulish, Roboto } from "next/font/google";
 import { RouteProvider } from "@/providers/router-provider";
 import { Theme } from "@/providers/theme";
 import "@/styles/globals.css";
@@ -24,6 +24,13 @@ const manrope = Manrope({
     variable: "--font-manrope",
 });
 
+const roboto = Roboto({
+    subsets: ["latin", "cyrillic"],
+    display: "swap",
+    weight: ["400", "600", "700"],
+    variable: "--font-roboto",
+});
+
 export const metadata: Metadata = {
     title: "Інвестиційна Платформа",
     description: "Платформа для венчурних інвестицій в бізнес",
@@ -40,8 +47,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body className={cx(mulish.variable, lato.variable, manrope.variable, "bg-primary antialiased")}>
+        <html lang="uk" suppressHydrationWarning>
+            <body className={cx(mulish.variable, lato.variable, manrope.variable, roboto.variable, "bg-primary antialiased")}>
                 <RouteProvider>
                     <Theme>{children}</Theme>
                 </RouteProvider>
