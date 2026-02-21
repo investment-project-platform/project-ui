@@ -54,7 +54,7 @@ export const styles = sortCx({
     colors: {
         primary: {
             root: [
-                "bg-white text-black shadow-xs ring-1 ring-inset hover:bg-gray-200 active:bg-gray-300 data-loading:bg-gray-200 data-pressed:bg-gray-300",
+                "bg-white text-black shadow-xs ring-1 ring-inset hover:bg-purple-100 active:bg-[rgb(172,164,232)] data-loading:bg-purple-100 data-pressed:bg-[rgb(172,164,232)]",
                 // Disabled styles
                 "disabled:bg-disabled disabled:text-fg-disabled disabled:shadow-xs disabled:ring-disabled_subtle",
                 // Icon styles

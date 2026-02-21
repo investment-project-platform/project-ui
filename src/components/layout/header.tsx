@@ -38,6 +38,10 @@ export const LandingHeader = () => {
                                 <li key={item.href}>
                                     <a
                                         href={item.href}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            document.getElementById(item.href.slice(1))?.scrollIntoView({ behavior: "smooth" });
+                                        }}
                                         className="cursor-pointer rounded-lg px-3 py-2 font-body text-md font-semibold text-white transition-colors hover:text-brand-500"
                                     >
                                         {item.label}
@@ -103,7 +107,11 @@ export const LandingHeader = () => {
                                 <li key={item.href}>
                                     <a
                                         href={item.href}
-                                        onClick={() => setMobileMenuOpen(false)}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setMobileMenuOpen(false);
+                                            document.getElementById(item.href.slice(1))?.scrollIntoView({ behavior: "smooth" });
+                                        }}
                                         className="block cursor-pointer rounded-lg px-4 py-3 font-body text-md font-semibold text-white transition-colors hover:bg-white/10"
                                     >
                                         {item.label}

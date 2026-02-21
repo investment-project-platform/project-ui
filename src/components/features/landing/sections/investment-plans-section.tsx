@@ -1,6 +1,9 @@
+"use client";
+
 import { ArrowUpRight } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 import { cx } from "@/utils/cx";
+import { motion } from "motion/react";
 
 const activeFeatures = [
     "Інвестиції в криптопроєкти",
@@ -95,37 +98,89 @@ export const InvestmentPlansSection = () => {
                 background: "radial-gradient(circle at 50% 50%, #1E234E 0%, #111325 100%)",
             }}
         >
-            <div className="mx-auto max-w-[1320px]">
+            <motion.div
+                className="mx-auto max-w-[1320px]"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                variants={{
+                    hidden: {},
+                    visible: {
+                        transition: {
+                            staggerChildren: 0.15,
+                            delayChildren: 0.1,
+                        },
+                    },
+                }}
+            >
                 {/* Header */}
-                <div className="flex flex-col gap-6">
+                <motion.div
+                    className="flex flex-col gap-6"
+                    variants={{
+                        hidden: { opacity: 0, y: 30 },
+                        visible: { opacity: 1, y: 0 },
+                    }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                >
                     <h2 className="font-display text-3xl leading-tight font-bold text-white uppercase md:text-4xl lg:text-[56px] lg:leading-[1.2]">
                         Оберіть інвестицію
                     </h2>
                     {/* Decorative line */}
                     <div className="h-0.5 w-full border-t-2 border-[#463D67]" />
-                </div>
+                </motion.div>
 
                 {/* Description */}
-                <p className="mt-12 ml-auto max-w-[39ch] font-body text-lg leading-relaxed text-pretty text-white">
+                <motion.p
+                    className="mt-12 ml-auto max-w-[39ch] font-body text-lg leading-relaxed text-pretty text-white"
+                    variants={{
+                        hidden: { opacity: 0, y: 30 },
+                        visible: { opacity: 1, y: 0 },
+                    }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                >
                     На даний момент доступний один інвестиційний план, але ми не зупиняємося! Уже зовсім скоро ви зможете обирати серед ще двох нових
                     можливостей для інвестування. Стежте за оновленнями!
-                </p>
+                </motion.p>
 
                 {/* Plan cards */}
                 <div className="mt-16 flex flex-col items-center gap-6 lg:flex-row">
-                    <PlanCard title="точкова інвестиція" description="Інвестиції в конкретний актив компанії" />
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0, y: 30 },
+                            visible: { opacity: 1, y: 0 },
+                        }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                    >
+                        <PlanCard title="точкова інвестиція" description="Інвестиції в конкретний актив компанії" />
+                    </motion.div>
 
-                    <PlanCard
-                        title="Загальний портфель"
-                        description="Інвестиція в загальний капітал проекту, який складається з наступних активів:"
-                        isActive
-                        features={activeFeatures}
-                        disclaimer="* Натискаючи кнопку, ви перейдете на форму для заповнення усіх деталей"
-                    />
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0, y: 30 },
+                            visible: { opacity: 1, y: 0 },
+                        }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                    >
+                        <PlanCard
+                            title="Загальний портфель"
+                            description="Інвестиція в загальний капітал проекту, який складається з наступних активів:"
+                            isActive
+                            features={activeFeatures}
+                            disclaimer="* Натискаючи кнопку, ви перейдете на форму для заповнення усіх деталей"
+                        />
+                    </motion.div>
 
-                    <PlanCard title="Часткова інвестиція" description="Інвестиції в певну галузь портфелю компанії " />
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0, y: 30 },
+                            visible: { opacity: 1, y: 0 },
+                        }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                    >
+                        <PlanCard title="Часткова інвестиція" description="Інвестиції в певну галузь портфелю компанії " />
+                    </motion.div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };

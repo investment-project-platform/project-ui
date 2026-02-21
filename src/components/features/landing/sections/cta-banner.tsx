@@ -1,13 +1,20 @@
+"use client";
+
 import { Button } from "@/components/base/buttons/button";
+import { motion } from "motion/react";
 
 export const CtaBanner = () => {
     return (
         <section className="px-4 md:px-16">
-            <div
+            <motion.div
                 className="mx-auto flex max-w-[1320px] flex-col gap-8 rounded-2xl p-8 md:flex-row md:items-end md:justify-between md:gap-10 md:p-10"
                 style={{
                     background: "linear-gradient(90deg, #111325 -3%, #C2B6FF 130%)",
                 }}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
             >
                 {/* Text content */}
                 <div className="flex flex-col gap-8">
@@ -23,7 +30,7 @@ export const CtaBanner = () => {
                 <Button href="/register" size="lg" color="primary" className="gradient-border-light w-fit shrink-0 !shadow-none !ring-0">
                     Зареєструватись
                 </Button>
-            </div>
+            </motion.div>
         </section>
     );
 };

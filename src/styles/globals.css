@@ -58,6 +58,7 @@ body {
         linear-gradient(#fff 0 0);
     mask-composite: exclude;
     -webkit-mask-composite: xor;
+    transition: background-position 0.4s ease;
 }
 
 .gradient-border-light::after {
@@ -68,6 +69,12 @@ body {
         rgba(178, 163, 253, 1) 82%,
         rgba(227, 221, 255, 1) 100%
     );
+    background-size: 100% 300%;
+    background-position: 0% 100%;
+}
+
+.gradient-border-light:hover::after {
+    background-position: 0% 0%;
 }
 
 .gradient-border-dark::after {
@@ -78,6 +85,12 @@ body {
         rgba(45, 45, 72, 1) 55%,
         rgba(66, 71, 139, 1) 95%
     );
+    background-size: 100% 300%;
+    background-position: 0% 100%;
+}
+
+.gradient-border-dark:hover::after {
+    background-position: 0% 0%;
 }
 
 .gradient-border-header::after {

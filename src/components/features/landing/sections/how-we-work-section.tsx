@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
 
 const steps = [
@@ -24,8 +28,31 @@ const steps = [
 ];
 
 export const HowWeWorkSection = () => {
+    const ref = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"],
+    });
+
+    const lineWidth = useTransform(scrollYProgress, [0.28, 0.6], ["0%", "100%"]);
+
+    // Step 1 is always visible (no animation)
+    const step2Opacity = useTransform(scrollYProgress, [0.3, 0.42], [0, 1]);
+    const step2Y = useTransform(scrollYProgress, [0.3, 0.42], [30, 0]);
+    const step3Opacity = useTransform(scrollYProgress, [0.42, 0.52], [0, 1]);
+    const step3Y = useTransform(scrollYProgress, [0.42, 0.52], [30, 0]);
+    const step4Opacity = useTransform(scrollYProgress, [0.52, 0.6], [0, 1]);
+    const step4Y = useTransform(scrollYProgress, [0.52, 0.6], [30, 0]);
+
+    const stepTransforms = [
+        { opacity: 1, y: 0 },
+        { opacity: step2Opacity, y: step2Y },
+        { opacity: step3Opacity, y: step3Y },
+        { opacity: step4Opacity, y: step4Y },
+    ];
+
     return (
-        <section id="about" className="bg-white px-4 py-16 md:px-16 md:py-24 rounded-t-xl">
+        <section ref={ref} id="about" className="rounded-t-xl bg-white px-4 py-16 md:px-16 md:py-24">
             <div className="mx-auto max-w-[1320px]">
                 {/* Header */}
                 <div className="flex flex-col gap-6">
@@ -42,30 +69,42 @@ export const HowWeWorkSection = () => {
                     отримуєте прибуток. Кожен крок чітко структурований, щоб забезпечити довіру та максимальну вигоду.
                 </p>
 
-                {/* Steps */}
-                <div className="mt-16 grid grid-cols-2 gap-6 md:mt-24 lg:grid-cols-4 lg:gap-6">
-                    {steps.map((step) => (
-                        <div key={step.number} className="flex flex-col items-center gap-3">
-                            {/* Illustration */}
-                            <div className="flex h-[126px] items-end justify-center">
-                                <Image src={step.illustration} alt={step.title} width={140} height={126} className="h-auto max-h-[126px] w-auto" />
-                            </div>
+                {/* Steps with progress line */}
+                <div className="relative mt-16 md:mt-24">
+                    {/* Progress line (behind dots) */}
+                    <motion.div className="absolute top-[141px] left-0 z-0 hidden h-2 bg-gray-200 lg:block" style={{ width: lineWidth }} aria-hidden />
 
-                            {/* Dot + Number + Title */}
-                            <div className="flex flex-col items-center gap-3">
-                                {/* Blue dot */}
-                                <div className="h-3.5 w-3.5 rounded-sm bg-[#2323F4]" />
+                    <div className="relative z-10 grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-6">
+                        {steps.map((step, index) => (
+                            <motion.div
+                                key={step.number}
+                                className="flex flex-col items-center gap-3"
+                                style={{
+                                    opacity: stepTransforms[index].opacity,
+                                    y: stepTransforms[index].y,
+                                }}
+                            >
+                                {/* Illustration */}
+                                <div className="flex h-[126px] items-end justify-center">
+                                    <Image src={step.illustration} alt={step.title} width={140} height={126} className="h-auto max-h-[126px] w-auto" />
+                                </div>
 
-                                {/* Number */}
-                                <span className="font-body text-[64px] leading-none font-bold tracking-[-0.04em] text-[#2323F4] md:text-[96px]">
-                                    {step.number}
-                                </span>
+                                {/* Dot + Number + Title */}
+                                <div className="flex flex-col items-center gap-3">
+                                    {/* Blue dot - on the progress line */}
+                                    <div className="h-3.5 w-3.5 shrink-0 rounded-[3px] bg-[#2323F4]" />
 
-                                {/* Title */}
-                                <span className="text-center font-body text-lg leading-snug font-semibold text-black md:text-xl">{step.title}</span>
-                            </div>
-                        </div>
-                    ))}
+                                    {/* Number */}
+                                    <span className="font-body text-[64px] leading-none font-bold tracking-[-0.04em] text-[#2323F4] md:text-[96px]">
+                                        {step.number}
+                                    </span>
+
+                                    {/* Title */}
+                                    <span className="text-center font-body text-lg leading-snug font-semibold text-black md:text-xl">{step.title}</span>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

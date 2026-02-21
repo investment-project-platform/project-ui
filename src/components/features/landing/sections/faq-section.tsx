@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
 import { cx } from "@/utils/cx";
+import { motion } from "motion/react";
 
 const faqItems = [
     {
@@ -60,7 +61,13 @@ const FaqItem = ({ question, answer }: { question: string; answer: string }) => 
 export const FaqSection = () => {
     return (
         <section id="faq" className="rounded-t-xl bg-[#EAEAF3] px-4 py-16 md:rounded-t-xl md:px-16 md:py-24 lg:py-32">
-            <div className="mx-auto flex max-w-[1320px] flex-col gap-12 lg:flex-row lg:gap-20">
+            <motion.div
+                className="mx-auto flex max-w-[1320px] flex-col gap-12 lg:flex-row lg:gap-20"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+            >
                 {/* Left column */}
                 <div className="flex flex-col gap-7 lg:w-[368px] lg:shrink-0">
                     <h2 className="font-display text-3xl leading-tight font-bold text-black uppercase md:text-4xl lg:text-[56px] lg:leading-[1.2]">
@@ -91,7 +98,7 @@ export const FaqSection = () => {
                         <FaqItem key={item.question} question={item.question} answer={item.answer} />
                     ))}
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };

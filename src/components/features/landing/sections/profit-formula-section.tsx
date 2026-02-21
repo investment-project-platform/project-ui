@@ -1,5 +1,8 @@
+"use client";
+
 import { Plus } from "@untitledui/icons";
 import Image from "next/image";
+import { motion } from "motion/react";
 
 const formulaCards = [
     {
@@ -27,7 +30,13 @@ const EqualsIcon = () => (
 export const ProfitFormulaSection = () => {
     return (
         <section className="bg-white px-4 py-16 md:px-16 md:py-24">
-            <div className="mx-auto max-w-[1320px]">
+            <motion.div
+                className="mx-auto max-w-[1320px]"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+            >
                 {/* Header */}
                 <div className="flex flex-col gap-6">
                     <h2 className="font-display text-3xl leading-tight font-bold text-black uppercase md:text-4xl lg:text-[56px] lg:leading-[1.2]">
@@ -64,7 +73,7 @@ export const ProfitFormulaSection = () => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };
