@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "@untitledui/icons";
+import { Plus, X } from "@untitledui/icons";
+import { motion } from "motion/react";
 import { Button } from "@/components/base/buttons/button";
 import { cx } from "@/utils/cx";
-import { motion } from "motion/react";
 
 const faqItems = [
     {
@@ -40,18 +40,43 @@ const FaqItem = ({ question, answer }: { question: string; answer: string }) => 
                 aria-expanded={isOpen}
             >
                 <span className="font-body text-lg text-black">{question}</span>
-                <div
-                    className={cx(
-                        "flex shrink-0 items-center justify-center rounded-2xl bg-gray-200 p-2 transition-transform duration-300 ease-in-out",
-                        isOpen && "rotate-180",
-                    )}
+                <motion.div
+                    className="flex shrink-0 items-center justify-center rounded-2xl bg-gray-200 p-2"
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 28 }}
                 >
-                    <ChevronDown className="size-6 text-gray-900" />
-                </div>
+                    <motion.span
+                        key={isOpen ? "open" : "closed"}
+                        initial={{ scale: 0.9, opacity: 0, filter: "blur(4px)" }}
+                        animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+                        transition={{
+                            duration: 0.5,
+                            ease: [0.25, 0.46, 0.45, 0.94],
+                        }}
+                        className="flex"
+                    >
+                        {isOpen ? <X className="size-6 text-gray-900" /> : <Plus className="size-6 text-gray-900" />}
+                    </motion.span>
+                </motion.div>
             </button>
-            <div className={cx("grid transition-all duration-300 ease-in-out", isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
+            <div className={cx("grid transition-[grid-template-rows] duration-300 ease-out", isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
                 <div className="overflow-hidden">
-                    <p className="px-6 pt-2 pb-4 font-body text-base leading-relaxed text-gray-800">{answer}</p>
+                    <motion.p
+                        className="px-6 pt-2 pb-4 font-body text-base leading-relaxed text-gray-800"
+                        initial={false}
+                        animate={{
+                            scale: isOpen ? 1 : 0.97,
+                            opacity: isOpen ? 1 : 0,
+                            filter: isOpen ? "blur(0px)" : "blur(6px)",
+                        }}
+                        transition={{
+                            scale: { type: "spring", stiffness: 400, damping: 28 },
+                            opacity: { duration: 0.25 },
+                            filter: { duration: 0.3 },
+                        }}
+                    >
+                        {answer}
+                    </motion.p>
                 </div>
             </div>
         </div>
