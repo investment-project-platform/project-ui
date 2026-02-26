@@ -20,9 +20,10 @@ export const LandingHeader = () => {
         <header className="fixed top-4 right-0 left-0 z-50 flex justify-center px-4 md:top-6 md:px-8">
             <div
                 className={cx(
-                    "gradient-border-header relative flex w-full max-w-[1320px] items-center justify-between rounded-3xl px-4 py-2.5 md:px-6 md:py-3",
-                    "[--header-bg:rgba(16,17,30,0.57)]",
-                    "bg-[var(--header-bg)] shadow-lg backdrop-blur-xl",
+                    "liquid-glass gradient-border-header relative flex w-full max-w-[1400px] items-center justify-between rounded-[72px] px-4 py-3 md:px-6",
+                    "bg-[rgba(16,17,30,0.47)]",
+                    "shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-1px_0_rgba(255,255,255,0.1),inset_0_0_40px_rgba(255,255,255,0.05),0_4px_24px_rgba(0,0,0,0.1)]",
+                    "[backdrop-filter:blur(8px)_saturate(1.4)_brightness(1.1)]",
                 )}
             >
                 {/* Logo */}
@@ -51,12 +52,7 @@ export const LandingHeader = () => {
                         </ul>
                     </nav>
 
-                    <Button
-                        href="/login"
-                        size="md"
-                        color="primary"
-                        className="gradient-border-light ml-2 !shadow-none !ring-0"
-                    >
+                    <Button href="/login" size="md" color="primary" className="gradient-border-light ml-2 !shadow-none !ring-0">
                         Увійти до кабінету
                     </Button>
                 </div>
@@ -93,11 +89,9 @@ export const LandingHeader = () => {
                 {/* Mobile menu dropdown - animated */}
                 <div
                     className={cx(
-                        "absolute top-full right-0 left-0 mt-2 origin-top rounded-2xl bg-[rgba(16,17,30,0.95)] p-4 shadow-2xl backdrop-blur-xl",
+                        "absolute top-full right-0 left-0 mt-2 origin-top rounded-3xl bg-[rgba(16,17,30,0.92)] p-4 shadow-2xl [backdrop-filter:blur(24px)_saturate(1.6)]",
                         "transition-all duration-300 ease-in-out",
-                        mobileMenuOpen
-                            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-                            : "pointer-events-none -translate-y-2 scale-95 opacity-0",
+                        mobileMenuOpen ? "pointer-events-auto translate-y-0 scale-100 opacity-100" : "pointer-events-none -translate-y-2 scale-95 opacity-0",
                     )}
                     aria-hidden={!mobileMenuOpen}
                 >
@@ -120,12 +114,7 @@ export const LandingHeader = () => {
                             ))}
                         </ul>
                     </nav>
-                    <Button
-                        href="/login"
-                        size="lg"
-                        color="primary"
-                        className="gradient-border-light mt-3 w-full !shadow-none !ring-0"
-                    >
+                    <Button href="/login" size="lg" color="primary" className="gradient-border-light mt-3 w-full !shadow-none !ring-0">
                         Увійти до кабінету
                     </Button>
                 </div>
