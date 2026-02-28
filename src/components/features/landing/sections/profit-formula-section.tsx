@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "@untitledui/icons";
+import { Equal, Minus } from "@untitledui/icons";
 import Image from "next/image";
 import { motion } from "motion/react";
 
@@ -19,13 +19,9 @@ const formulaCards = [
     },
 ];
 
-const PlusIcon = () => <Plus className="size-8 shrink-0 text-black" strokeWidth={2.5} />;
+const MinusIcon = () => <Minus className="size-8 shrink-0 text-black" strokeWidth={2.5} />;
 
-const EqualsIcon = () => (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-        <path d="M6 12H26M6 20H26" stroke="#111325" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-);
+const EqualsIcon = () => <Equal className="size-8 shrink-0 text-black" strokeWidth={2.5} />;
 
 export const ProfitFormulaSection = () => {
     return (
@@ -66,7 +62,7 @@ export const ProfitFormulaSection = () => {
                                 {/* Operator between cards */}
                                 {index < formulaCards.length - 1 && (
                                     <div className="flex shrink-0 items-center justify-center px-3 py-2 md:px-4">
-                                        {index === 0 ? <PlusIcon /> : <EqualsIcon />}
+                                        {index === 0 ? <MinusIcon /> : <EqualsIcon />}
                                     </div>
                                 )}
                             </div>
