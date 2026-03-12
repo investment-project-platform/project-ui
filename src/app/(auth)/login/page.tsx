@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mail01 } from "@untitledui/icons";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/base/buttons/button";
 import { Checkbox } from "@/components/base/checkbox/checkbox";
@@ -9,9 +10,32 @@ import { Form } from "@/components/base/form/form";
 import { Input } from "@/components/base/input/input";
 import { ForgotPasswordModal } from "@/components/features/auth/forgot-password-modal";
 import { AuthLayout } from "@/components/layout/auth-layout";
+import { useAuth } from "@/context/auth-context";
 
 export default function LoginPage() {
+    const { login } = useAuth();
+    const router = useRouter();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        setError(null);
+        setIsLoading(true);
+        try {
+            await login(email, password);
+            router.push("/dashboard");
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : "Помилка входу. Перевірте дані та спробуйте ще раз.";
+            setError(message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <AuthLayout variant="login">
@@ -26,12 +50,14 @@ export default function LoginPage() {
                     </div>
 
                     {/* Form */}
-                    <Form className="flex w-full max-w-[369px] flex-col gap-4">
+                    <Form onSubmit={handleSubmit} className="flex w-full max-w-[369px] flex-col gap-4">
                         {/* Inputs */}
                         <div className="flex flex-col gap-2">
                             <Input
                                 type="email"
                                 name="email"
+                                value={email}
+                                onChange={setEmail}
                                 placeholder="project@gmail.com"
                                 icon={Mail01}
                                 variant="light"
@@ -42,6 +68,8 @@ export default function LoginPage() {
                             <Input
                                 type="password"
                                 name="password"
+                                value={password}
+                                onChange={setPassword}
                                 placeholder="Введіть пароль"
                                 icon={Mail01}
                                 variant="light"
@@ -50,6 +78,9 @@ export default function LoginPage() {
                                 wrapperClassName="!ring-gray-600"
                             />
                         </div>
+
+                        {/* Error message */}
+                        {error && <p className="text-sm text-red-600">{error}</p>}
 
                         {/* Remember me + forgot password */}
                         <div className="flex items-center justify-between">
@@ -62,32 +93,30 @@ export default function LoginPage() {
                                 Забули пароль?
                             </button>
                         </div>
+
+                        {/* Submit button — inside the form so type="submit" works */}
+                        <div className="mt-8 flex flex-col items-center gap-12">
+                            <div className="flex w-full flex-col items-center gap-2">
+                                <Button
+                                    type="submit"
+                                    size="lg"
+                                    color="primary"
+                                    isLoading={isLoading}
+                                    className="gradient-border-dark w-full !bg-black !text-white !ring-0"
+                                >
+                                    Увійти
+                                </Button>
+                            </div>
+
+                            {/* Sign up link */}
+                            <div className="flex items-center gap-[9px]">
+                                <span className="font-body text-md text-[#62677D]">Ще не маєте акаунта?</span>
+                                <Link href="/signup" className="font-body text-md font-medium text-[#0609F2] underline-offset-2 hover:underline">
+                                    Зареєструйтесь тут
+                                </Link>
+                            </div>
+                        </div>
                     </Form>
-                </div>
-
-                {/* Bottom actions */}
-                <div className="mt-12 flex w-full max-w-[419px] flex-col items-center gap-12">
-                    <div className="flex w-full flex-col items-center gap-2">
-                        {/* Submit button */}
-                        <Button type="submit" size="lg" color="primary" className="gradient-border-dark w-full max-w-[368px] !bg-black !text-white !ring-0">
-                            Увійти
-                        </Button>
-
-                        {/* Divider */}
-                        {/* <div className="flex w-full items-center gap-[11px] py-2">
-                            <div className="h-px flex-1 bg-gray-400" />
-                            <span className="font-body text-md font-medium text-[#62677D]">або</span>
-                            <div className="h-px flex-1 bg-gray-400" />
-                        </div> */}
-                    </div>
-
-                    {/* Sign up link */}
-                    <div className="flex items-center gap-[9px]">
-                        <span className="font-body text-md text-[#62677D]">Ще не маєте акаунта?</span>
-                        <Link href="/signup" className="font-body text-md font-medium text-[#0609F2] underline-offset-2 hover:underline">
-                            Зареєструйтесь тут
-                        </Link>
-                    </div>
                 </div>
             </div>
 

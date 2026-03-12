@@ -1,14 +1,50 @@
 "use client";
 
-import { Eye } from "@untitledui/icons";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/base/buttons/button";
 import { Checkbox } from "@/components/base/checkbox/checkbox";
 import { Form } from "@/components/base/form/form";
 import { Input } from "@/components/base/input/input";
 import { AuthLayout } from "@/components/layout/auth-layout";
+import { useAuth } from "@/context/auth-context";
 
 export default function SignupPage() {
+    const { register } = useAuth();
+    const router = useRouter();
+
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [passwordMismatch, setPasswordMismatch] = useState(false);
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        setError(null);
+
+        if (password !== confirmPassword) {
+            setPasswordMismatch(true);
+            return;
+        }
+        setPasswordMismatch(false);
+
+        setIsLoading(true);
+        try {
+            await register(firstName, lastName, email, password);
+            router.push("/dashboard");
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : "Помилка реєстрації. Перевірте дані та спробуйте ще раз.";
+            setError(message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <AuthLayout variant="signup">
             <div className="flex flex-1 flex-col px-6 py-12 md:px-12 lg:px-16">
@@ -23,19 +59,70 @@ export default function SignupPage() {
                 </div>
 
                 {/* Form */}
-                <Form className="mx-auto mt-10 flex w-full max-w-[744px] flex-col gap-7">
+                <Form onSubmit={handleSubmit} className="mx-auto mt-10 flex w-full max-w-[744px] flex-col gap-7">
                     {/* Input grid — 2 columns */}
                     <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
-                        <Input type="text" name="firstName" label="Імʼя" placeholder="Андрій" variant="dark" isRequired />
-                        <Input type="text" name="lastName" label="Прізвище" placeholder="Андрієнко" variant="dark" isRequired />
-                        <Input type="tel" name="phone" label="Номер телефону" placeholder="+(380) 555 55 55" variant="dark" isRequired />
-                        <Input type="email" name="email" label="Електронна пошта" placeholder="andrii@gmail.com" variant="dark" isRequired />
+                        <Input
+                            type="text"
+                            name="firstName"
+                            value={firstName}
+                            onChange={setFirstName}
+                            label="Імʼя"
+                            placeholder="Андрій"
+                            variant="dark"
+                            isRequired
+                        />
+                        <Input
+                            type="text"
+                            name="lastName"
+                            value={lastName}
+                            onChange={setLastName}
+                            label="Прізвище"
+                            placeholder="Андрієнко"
+                            variant="dark"
+                            isRequired
+                        />
+                        {/* Phone is kept in UI but not sent to the backend (not supported by SDK) */}
+                        <Input type="tel" name="phone" label="Номер телефону" placeholder="+(380) 555 55 55" variant="dark" />
+                        <Input
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={setEmail}
+                            label="Електронна пошта"
+                            placeholder="andrii@gmail.com"
+                            variant="dark"
+                            isRequired
+                        />
                     </div>
 
                     {/* Password row */}
                     <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
-                        <Input type="password" name="password" label="Пароль" placeholder="***********" variant="dark" isRequired />
-                        <Input type="password" name="confirmPassword" label="Повторіть пароль" placeholder="***********" variant="dark" isRequired />
+                        <Input
+                            type="password"
+                            name="password"
+                            value={password}
+                            onChange={setPassword}
+                            label="Пароль"
+                            placeholder="***********"
+                            variant="dark"
+                            isRequired
+                        />
+                        <Input
+                            type="password"
+                            name="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(val) => {
+                                setConfirmPassword(val);
+                                setPasswordMismatch(false);
+                            }}
+                            label="Повторіть пароль"
+                            placeholder="***********"
+                            variant="dark"
+                            isRequired
+                            isInvalid={passwordMismatch}
+                            hint={passwordMismatch ? "Паролі не співпадають" : undefined}
+                        />
                     </div>
 
                     {/* Terms checkbox */}
@@ -51,32 +138,33 @@ export default function SignupPage() {
                             </span>
                         }
                     />
-                </Form>
 
-                {/* Bottom actions */}
-                <div className="mx-auto mt-8 flex w-full max-w-[536px] flex-col items-center gap-8">
-                    <div className="flex w-full flex-col items-center gap-2">
-                        {/* Submit button */}
-                        <Button type="submit" size="lg" color="primary" className="gradient-border-light w-full !ring-0">
-                            Зареєструватись
-                        </Button>
+                    {/* Error message */}
+                    {error && <p className="text-sm text-red-400">{error}</p>}
 
-                        {/* Divider */}
-                        {/* <div className="flex w-full items-center gap-[11px] py-2">
-                            <div className="h-px flex-1 bg-gray-400" />
-                            <span className="font-body text-md font-medium text-gray-600">або</span>
-                            <div className="h-px flex-1 bg-gray-400" />
-                        </div> */}
+                    {/* Bottom actions */}
+                    <div className="mx-auto mt-1 flex w-full max-w-[536px] flex-col items-center gap-8">
+                        <div className="flex w-full flex-col items-center gap-2">
+                            <Button
+                                type="submit"
+                                size="lg"
+                                color="primary"
+                                isLoading={isLoading}
+                                className="gradient-border-light w-full !ring-0"
+                            >
+                                Зареєструватись
+                            </Button>
+                        </div>
+
+                        {/* Login link */}
+                        <p className="text-center font-accent text-sm text-black">
+                            Вже маєте обліковий запис?{" "}
+                            <Link href="/login" className="underline underline-offset-2 hover:text-brand-700">
+                                Увійдіть тут
+                            </Link>
+                        </p>
                     </div>
-
-                    {/* Login link */}
-                    <p className="text-center font-accent text-sm text-black">
-                        Вже маєте обліковий запис?{" "}
-                        <Link href="/login" className="underline underline-offset-2 hover:text-brand-700">
-                            Увійдіть тут
-                        </Link>
-                    </p>
-                </div>
+                </Form>
             </div>
         </AuthLayout>
     );
