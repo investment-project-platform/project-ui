@@ -62,7 +62,7 @@ body {
 }
 
 .gradient-border-light::after {
-    background: linear-gradient(0deg, rgba(178, 163, 253, 1) 0%, rgba(66, 71, 139, 1) 27%, rgba(178, 163, 253, 1) 82%, rgba(227, 221, 255, 1) 100%);
+    background: linear-gradient(0deg, rgba(177, 166, 232, 1) 0%, rgba(66, 71, 139, 1) 27%, rgba(177, 166, 232, 1) 82%, rgba(227, 221, 255, 1) 100%);
     background-size: 100% 300%;
     background-position: 0% 100%;
 }
@@ -85,7 +85,7 @@ body {
     background: linear-gradient(
         0deg,
         rgba(64, 69, 135, 0.96) 0%,
-        rgba(178, 163, 253, 1) 2%,
+        rgba(177, 166, 232, 1) 2%,
         rgba(66, 71, 139, 1) 9%,
         rgba(17, 19, 37, 0) 100%
     );

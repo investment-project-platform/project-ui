@@ -3,7 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ChevronDown, LogOut01, LayoutAlt01 } from "@untitledui/icons";
+import { Button as AriaButton } from "react-aria-components";
 import { Button } from "@/components/base/buttons/button";
+import { Dropdown } from "@/components/base/dropdown/dropdown";
+import { useAuth } from "@/context/auth-context";
 import { cx } from "@/utils/cx";
 
 const navItems = [
@@ -15,6 +20,17 @@ const navItems = [
 
 export const LandingHeader = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { user, logout, isLoading } = useAuth();
+    const router = useRouter();
+
+    const isAuthenticated = !isLoading && !!user;
+    const isLoadingAuth = isLoading;
+    const fullName = user ? `${user.name} ${user.surname}` : "";
+
+    async function handleLogout() {
+        await logout();
+        router.push("/");
+    }
 
     return (
         <header className="fixed top-4 right-0 left-0 z-50 flex justify-center px-4 md:top-6 md:px-8">
@@ -52,9 +68,32 @@ export const LandingHeader = () => {
                         </ul>
                     </nav>
 
-                    <Button href="/login" size="md" color="primary" className="gradient-border-light ml-2 !shadow-none !ring-0">
-                        Увійти до кабінету
-                    </Button>
+                    {isLoadingAuth ? (
+                        <div className="ml-2 flex animate-pulse items-center gap-2 rounded-[32px] bg-white/10 px-4 py-2">
+                            <div className="h-4 w-30 rounded-full bg-white/20" />
+                            <div className="size-5 rounded-full bg-white/20" />
+                        </div>
+                    ) : isAuthenticated ? (
+                        <Dropdown.Root>
+                            <AriaButton className="ml-2 flex cursor-pointer items-center gap-2 rounded-[32px] bg-white/10 px-4 py-2 text-white outline-hidden transition-colors hover:bg-white/15">
+                                <span className="font-body text-md font-semibold">{fullName}</span>
+                                <ChevronDown className="size-5 text-white/70" />
+                            </AriaButton>
+                            <Dropdown.Popover>
+                                <Dropdown.Menu onAction={(key) => {
+                                    if (key === "dashboard") router.push("/dashboard");
+                                    if (key === "logout") handleLogout();
+                                }}>
+                                    <Dropdown.Item id="dashboard" icon={LayoutAlt01} label="Редагувати профіль" />
+                                    <Dropdown.Item id="logout" icon={LogOut01} label="Вийти" />
+                                </Dropdown.Menu>
+                            </Dropdown.Popover>
+                        </Dropdown.Root>
+                    ) : (
+                        <Button href="/login" size="md" color="primary" className="gradient-border-light ml-2 !shadow-none !ring-0">
+                            Увійти до кабінету
+                        </Button>
+                    )}
                 </div>
 
                 {/* Mobile menu button - animated hamburger */}
@@ -89,7 +128,7 @@ export const LandingHeader = () => {
                 {/* Mobile menu dropdown - animated */}
                 <div
                     className={cx(
-                        "absolute top-full right-0 left-0 mt-2 origin-top rounded-3xl bg-[rgba(16,17,30,0.92)] p-4 shadow-2xl [backdrop-filter:blur(24px)_saturate(1.6)]",
+                        "absolute top-full right-0 left-0 mt-2 origin-top rounded-xl bg-[rgba(16,17,30,0.92)] p-4 shadow-2xl [backdrop-filter:blur(24px)_saturate(1.6)]",
                         "transition-all duration-300 ease-in-out",
                         mobileMenuOpen ? "pointer-events-auto translate-y-0 scale-100 opacity-100" : "pointer-events-none -translate-y-2 scale-95 opacity-0",
                     )}
@@ -114,9 +153,35 @@ export const LandingHeader = () => {
                             ))}
                         </ul>
                     </nav>
-                    <Button href="/login" size="lg" color="primary" className="gradient-border-light mt-3 w-full !shadow-none !ring-0">
-                        Увійти до кабінету
-                    </Button>
+                    {isLoadingAuth ? (
+                        <div className="mt-3 animate-pulse border-t border-white/10 pt-3 px-4">
+                            <div className="h-4 w-32 rounded-full bg-white/20" />
+                        </div>
+                    ) : isAuthenticated ? (
+                        <div className="mt-3 flex flex-col gap-2 border-t border-white/10 pt-3">
+                            <span className="px-4 font-body text-md font-semibold text-white">{fullName}</span>
+                            <button
+                                type="button"
+                                onClick={() => { setMobileMenuOpen(false); router.push("/dashboard"); }}
+                                className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-left font-body text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                            >
+                                <LayoutAlt01 className="size-4" />
+                                Перейти до кабінету
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
+                                className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-left font-body text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                            >
+                                <LogOut01 className="size-4" />
+                                Вийти
+                            </button>
+                        </div>
+                    ) : (
+                        <Button href="/login" size="lg" color="primary" className="gradient-border-light mt-3 w-full !shadow-none !ring-0">
+                            Увійти до кабінету
+                        </Button>
+                    )}
                 </div>
             </div>
         </header>

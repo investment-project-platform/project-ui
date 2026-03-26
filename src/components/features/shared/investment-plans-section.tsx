@@ -1,25 +1,19 @@
 "use client";
 
 import { ArrowUpRight } from "@untitledui/icons";
+import { motion } from "motion/react";
 import { Button } from "@/components/base/buttons/button";
 import { cx } from "@/utils/cx";
-import { motion } from "motion/react";
 
-const activeFeatures = [
-    "Інвестиції в криптопроєкти",
-    "Торгівля на фючерсах і споті",
-    "Використання API забезпечення для автоматичної торгівлі",
-    "Стейкінг та депозити на перспективних монетах",
-    "Венчурні активи",
-];
-
-type PlanCardProps = {
+export type PlanCardData = {
     title: string;
     description: string;
     isActive?: boolean;
     features?: string[];
     disclaimer?: string;
 };
+
+type PlanCardProps = PlanCardData;
 
 const PlanCard = ({ title, description, isActive = false, features, disclaimer }: PlanCardProps) => {
     return (
@@ -46,16 +40,13 @@ const PlanCard = ({ title, description, isActive = false, features, disclaimer }
 
             {/* Top content */}
             <div className="flex flex-col gap-8">
-                {/* Title + separator */}
                 <div className="flex flex-col gap-2">
                     <h3 className="font-display text-xl leading-snug font-bold text-white uppercase md:text-2xl md:leading-tight">{title}</h3>
                     <div className="h-px w-full bg-gray-600" />
                 </div>
 
-                {/* Description */}
                 <p className="font-body text-base leading-snug text-white">{description}</p>
 
-                {/* Features list (active card only) */}
                 {features && (
                     <div className="flex flex-col gap-2">
                         {features.map((feature) => (
@@ -89,7 +80,13 @@ const PlanCard = ({ title, description, isActive = false, features, disclaimer }
     );
 };
 
-export const InvestmentPlansSection = () => {
+interface InvestmentPlansSectionProps {
+    title: string;
+    description?: string;
+    plans: PlanCardData[];
+}
+
+export const InvestmentPlansSection = ({ title, description, plans }: InvestmentPlansSectionProps) => {
     return (
         <section
             id="plans"
@@ -123,62 +120,40 @@ export const InvestmentPlansSection = () => {
                     transition={{ duration: 0.5, ease: "easeOut" }}
                 >
                     <h2 className="font-display text-3xl leading-tight font-bold text-white uppercase md:text-4xl lg:text-[56px] lg:leading-[1.2]">
-                        Оберіть інвестицію
+                        {title}
                     </h2>
                     {/* Decorative line */}
                     <div className="h-0.5 w-full border-t-2 border-[#463D67]" />
                 </motion.div>
 
                 {/* Description */}
-                <motion.p
-                    className="mt-12 ml-auto max-w-[39ch] font-body text-lg leading-relaxed text-pretty text-white"
-                    variants={{
-                        hidden: { opacity: 0, y: 30 },
-                        visible: { opacity: 1, y: 0 },
-                    }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                >
-                    На даний момент доступний один інвестиційний план, але ми не зупиняємося! Уже зовсім скоро ви зможете обирати серед ще двох нових
-                    можливостей для інвестування. Стежте за оновленнями!
-                </motion.p>
+                {description && (
+                    <motion.p
+                        className="mt-12 ml-auto max-w-[39ch] font-body text-lg leading-relaxed text-pretty text-white"
+                        variants={{
+                            hidden: { opacity: 0, y: 30 },
+                            visible: { opacity: 1, y: 0 },
+                        }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                    >
+                        {description}
+                    </motion.p>
+                )}
 
                 {/* Plan cards */}
                 <div className="mt-16 flex flex-col items-center gap-6 lg:flex-row">
-                    <motion.div
-                        variants={{
-                            hidden: { opacity: 0, y: 30 },
-                            visible: { opacity: 1, y: 0 },
-                        }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                    >
-                        <PlanCard title="точкова інвестиція" description="Інвестиції в конкретний актив компанії" />
-                    </motion.div>
-
-                    <motion.div
-                        variants={{
-                            hidden: { opacity: 0, y: 30 },
-                            visible: { opacity: 1, y: 0 },
-                        }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                    >
-                        <PlanCard
-                            title="Загальний портфель"
-                            description="Інвестиція в загальний капітал проекту, який складається з наступних активів:"
-                            isActive
-                            features={activeFeatures}
-                            disclaimer="* Натискаючи кнопку, ви перейдете на форму для заповнення усіх деталей"
-                        />
-                    </motion.div>
-
-                    <motion.div
-                        variants={{
-                            hidden: { opacity: 0, y: 30 },
-                            visible: { opacity: 1, y: 0 },
-                        }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                    >
-                        <PlanCard title="Часткова інвестиція" description="Інвестиції в певну галузь портфелю компанії " />
-                    </motion.div>
+                    {plans.map((plan) => (
+                        <motion.div
+                            key={plan.title}
+                            variants={{
+                                hidden: { opacity: 0, y: 30 },
+                                visible: { opacity: 1, y: 0 },
+                            }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                        >
+                            <PlanCard {...plan} />
+                        </motion.div>
+                    ))}
                 </div>
             </motion.div>
         </section>

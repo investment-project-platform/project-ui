@@ -130,9 +130,9 @@
     --color-brand-300: rgb(214 206 255); /* #D6CEFF */
     --color-brand-400: rgb(206 197 255); /* #CEC5FF */
     --color-brand-500: rgb(194 182 255); /* #C2B6FF */
-    --color-brand-600: rgb(178 163 253); /* #B2A3FD */
+    --color-brand-600: rgb(177 166 232); /* #B1A6E8 */
     --color-brand-700: rgb(138 129 181); /* #8A81B5 */
-    --color-brand-800: rgb(110 105 160); /* #6E69A0 */
+    --color-brand-800: rgb(107 100 140); /* #6B648C */
     --color-brand-900: rgb(81 76 107); /* #514C6B */
     --color-brand-950: rgb(44 28 95); /* #2C1C5F */
 
@@ -410,18 +410,18 @@
     --color-violet-900: rgb(73 28 150); /* #491C96 */
     --color-violet-950: rgb(46 18 94); /* #2E125E */
 
-    --color-purple-25: rgb(250 250 255); /* #FAFAFF */
-    --color-purple-50: rgb(244 243 255); /* #F4F3FF */
-    --color-purple-100: rgb(235 233 254); /* #EBE9FE */
-    --color-purple-200: rgb(217 214 254); /* #D9D6FE */
-    --color-purple-300: rgb(189 180 254); /* #BDCAFE */
-    --color-purple-400: rgb(155 138 251); /* #9B8AFB */
-    --color-purple-500: rgb(122 90 248); /* #7A5AF8 */
-    --color-purple-600: rgb(105 56 239); /* #6938EF */
-    --color-purple-700: rgb(89 37 220); /* #5925DC */
-    --color-purple-800: rgb(74 31 184); /* #4A1FB8 */
-    --color-purple-900: rgb(62 28 150); /* #3E1C96 */
-    --color-purple-950: rgb(39 17 95); /* #27115F */
+    --color-purple-25: rgb(252 250 255); /* #FCFAFF */
+    --color-purple-50: rgb(249 248 255); /* #F9F8FF */
+    --color-purple-100: rgb(236 232 255); /* #ECE8FF */
+    --color-purple-200: rgb(227 221 255); /* #E3DDFF */
+    --color-purple-300: rgb(214 206 255); /* #D6CEFF */
+    --color-purple-400: rgb(206 197 255); /* #CEC5FF */
+    --color-purple-500: rgb(194 182 255); /* #C2B6FF */
+    --color-purple-600: rgb(177 166 232); /* #B1A6E8 */
+    --color-purple-700: rgb(138 129 181); /* #8A81B5 */
+    --color-purple-800: rgb(107 100 140); /* #6B648C */
+    --color-purple-900: rgb(81 76 107); /* #514C6B */
+    --color-purple-950: rgb(44 28 95); /* #2C1C5F */
 
     --color-fuchsia-25: rgb(254 250 255); /* #FEFAFF */
     --color-fuchsia-50: rgb(253 244 255); /* #FDEAFE */
@@ -501,6 +501,63 @@
     --color-yellow-900: rgb(113 59 18); /* #713B12 */
     --color-yellow-950: rgb(84 44 13); /* #542C0D */
 
+    /* PROJECT CUSTOM PALETTES (from Figma Design System) */
+
+    --color-project-blue-50: rgb(245 249 253); /* #F5F9FD */
+    --color-project-blue-100: rgb(223 237 250); /* #DFEDFA */
+    --color-project-blue-200: rgb(208 229 247); /* #D0E5F7 */
+    --color-project-blue-300: rgb(186 217 244); /* #BAD9F4 */
+    --color-project-blue-400: rgb(173 209 241); /* #ADD1F1 */
+    --color-project-blue-500: rgb(152 198 238); /* #98C6EE */
+    --color-project-blue-600: rgb(138 180 217); /* #8AB4D9 */
+    --color-project-blue-700: rgb(108 141 169); /* #6C8DA9 */
+    --color-project-blue-800: rgb(84 109 131); /* #546D83 */
+    --color-project-blue-900: rgb(64 83 100); /* #405364 */
+
+    --color-project-yellow-50: rgb(254 249 234); /* #FEF9EA */
+    --color-project-yellow-100: rgb(250 237 190); /* #FAEDBE */
+    --color-project-yellow-200: rgb(248 229 158); /* #F8E59E */
+    --color-project-yellow-300: rgb(245 217 114); /* #F5D972 */
+    --color-project-yellow-400: rgb(243 209 87); /* #F3D157 */
+    --color-project-yellow-500: rgb(240 198 45); /* #F0C62D */
+    --color-project-yellow-600: rgb(218 180 41); /* #DAB429 */
+    --color-project-yellow-700: rgb(170 141 32); /* #AA8D20 */
+    --color-project-yellow-800: rgb(132 109 25); /* #846D19 */
+    --color-project-yellow-900: rgb(101 83 19); /* #655313 */
+
+    --color-project-red-50: rgb(253 236 232); /* #FDECE8 */
+    --color-project-red-100: rgb(247 195 182); /* #F7C3B6 */
+    --color-project-red-200: rgb(244 165 147); /* #F4A593 */
+    --color-project-red-300: rgb(238 124 98); /* #EE7C62 */
+    --color-project-red-400: rgb(235 99 67); /* #EB6343 */
+    --color-project-red-500: rgb(230 60 20); /* #E63C14 */
+    --color-project-red-600: rgb(209 55 18); /* #D13712 */
+    --color-project-red-700: rgb(163 43 14); /* #A32B0E */
+    --color-project-red-800: rgb(127 33 11); /* #7F210B */
+    --color-project-red-900: rgb(97 25 8); /* #611908 */
+
+    --color-project-green-50: rgb(242 250 237); /* #F2FAED */
+    --color-project-green-100: rgb(213 241 198); /* #D5F1C6 */
+    --color-project-green-200: rgb(193 234 170); /* #C1EAAA */
+    --color-project-green-300: rgb(165 224 132); /* #A5E084 */
+    --color-project-green-400: rgb(147 218 108); /* #93DA6C */
+    --color-project-green-500: rgb(120 209 71); /* #78D147 */
+    --color-project-green-600: rgb(109 190 65); /* #6DBE41 */
+    --color-project-green-700: rgb(85 148 50); /* #559432 */
+    --color-project-green-800: rgb(66 115 39); /* #427327 */
+    --color-project-green-900: rgb(50 88 30); /* #32581E */
+
+    --color-ultra-blue-50: rgb(230 230 254); /* #E6E6FE */
+    --color-ultra-blue-100: rgb(178 179 251); /* #B2B3FB */
+    --color-ultra-blue-200: rgb(140 142 249); /* #8C8EF9 */
+    --color-ultra-blue-300: rgb(88 90 246); /* #585AF6 */
+    --color-ultra-blue-400: rgb(56 58 245); /* #383AF5 */
+    --color-ultra-blue-500: rgb(6 9 242); /* #0609F2 */
+    --color-ultra-blue-600: rgb(5 8 220); /* #0508DC */
+    --color-ultra-blue-700: rgb(4 6 172); /* #0406AC */
+    --color-ultra-blue-800: rgb(3 5 133); /* #030585 */
+    --color-ultra-blue-900: rgb(3 4 102); /* #030466 */
+
     /* LIGHT MODE VARIABLES */
 
     --color-alpha-white: rgb(255 255 255); /* #FFFFFF */
@@ -528,12 +585,12 @@
     --color-utility-brand-400_alt: var(--color-brand-400); /* #CEC5FF */
     --color-utility-brand-500: var(--color-brand-500); /* #C2B6FF */
     --color-utility-brand-500_alt: var(--color-brand-500); /* #C2B6FF */
-    --color-utility-brand-600: var(--color-brand-600); /* #B2A3FD */
-    --color-utility-brand-600_alt: var(--color-brand-600); /* #B2A3FD */
+    --color-utility-brand-600: var(--color-brand-600); /* #B1A6E8 */
+    --color-utility-brand-600_alt: var(--color-brand-600); /* #B1A6E8 */
     --color-utility-brand-700: var(--color-brand-700); /* #8A81B5 */
     --color-utility-brand-700_alt: var(--color-brand-700); /* #8A81B5 */
-    --color-utility-brand-800: var(--color-brand-800); /* #6E69A0 */
-    --color-utility-brand-800_alt: var(--color-brand-800); /* #6E69A0 */
+    --color-utility-brand-800: var(--color-brand-800); /* #6B648C */
+    --color-utility-brand-800_alt: var(--color-brand-800); /* #6B648C */
     --color-utility-brand-900: var(--color-brand-900); /* #514C6B */
     --color-utility-brand-900_alt: var(--color-brand-900); /* #514C6B */
 

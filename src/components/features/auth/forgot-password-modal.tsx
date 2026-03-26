@@ -47,12 +47,12 @@ export const ForgotPasswordModal = ({ isOpen, onClose }: ForgotPasswordModalProp
         <ModalOverlay isOpen={isOpen} onOpenChange={(open) => !open && handleClose()} isDismissable>
             <Modal className="max-w-[576px]">
                 <Dialog>
-                    <div className="relative w-full rounded-2xl bg-gray-50 px-20 pt-8 pb-10">
+                    <div className="relative w-full rounded-2xl bg-gray-50 px-6 pt-8 pb-10 sm:px-20">
                         {/* Close button */}
                         <button
                             type="button"
                             onClick={handleClose}
-                            className="absolute top-8 right-8 flex size-10 cursor-pointer items-center justify-center rounded-lg text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                            className="absolute top-6 right-4 flex size-10 cursor-pointer items-center justify-center rounded-lg text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900 sm:top-8 sm:right-8"
                             aria-label="Закрити"
                         >
                             <XClose className="size-8 text-black" />
@@ -65,7 +65,7 @@ export const ForgotPasswordModal = ({ isOpen, onClose }: ForgotPasswordModalProp
                                 <div
                                     className="flex size-[97px] items-center justify-center rounded-full p-[15px]"
                                     style={{
-                                        background: "linear-gradient(-36deg, rgba(178, 163, 253, 0.3) 4%, rgba(64, 69, 135, 0.2) 52%, rgba(36, 54, 224, 0) 93%)",
+                                        background: "linear-gradient(-36deg, rgba(177, 166, 232, 0.3) 4%, rgba(64, 69, 135, 0.2) 52%, rgba(36, 54, 224, 0) 93%)",
                                     }}
                                 >
                                     <div
@@ -85,7 +85,7 @@ export const ForgotPasswordModal = ({ isOpen, onClose }: ForgotPasswordModalProp
                                     <h2 className="text-center font-display text-[24px] font-bold uppercase leading-[1.2] text-black">
                                         Забули пароль?
                                     </h2>
-                                    <p className="max-w-[421px] text-center font-body text-md leading-[1.25] text-[#62677D]">
+                                    <p className="max-w-full text-center font-body text-md leading-[1.25] text-[#62677D] sm:max-w-[421px]">
                                         {isSuccess
                                             ? "Перевірте вашу пошту — ми надіслали інструкції для відновлення паролю."
                                             : "Введіть вашу пошту, щоб відновити пароль"}

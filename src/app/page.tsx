@@ -4,9 +4,33 @@ import { HeroSection } from "@/components/features/landing/sections/hero-section
 import { HowWeWorkSection } from "@/components/features/landing/sections/how-we-work-section";
 import { ProfitFormulaSection } from "@/components/features/landing/sections/profit-formula-section";
 import { CtaBanner } from "@/components/features/landing/sections/cta-banner";
-import { InvestmentPlansSection } from "@/components/features/landing/sections/investment-plans-section";
+import { InvestmentPlansSection, type PlanCardData } from "@/components/features/shared/investment-plans-section";
+
+const plans: PlanCardData[] = [
+    {
+        title: "точкова інвестиція",
+        description: "Інвестиції в конкретний актив компанії",
+    },
+    {
+        title: "Загальний портфель",
+        description: "Інвестиція в загальний капітал проекту, який складається з наступних активів:",
+        isActive: true,
+        features: [
+            "Інвестиції в криптопроєкти",
+            "Торгівля на фючерсах і споті",
+            "Використання API забезпечення для автоматичної торгівлі",
+            "Стейкінг та депозити на перспективних монетах",
+            "Венчурні активи",
+        ],
+        disclaimer: "* Натискаючи кнопку, ви перейдете на форму для заповнення усіх деталей",
+    },
+    {
+        title: "Часткова інвестиція",
+        description: "Інвестиції в певну галузь портфелю компанії",
+    },
+];
 import { StatisticsSection } from "@/components/features/landing/sections/statistics-section";
-import { FaqSection } from "@/components/features/landing/sections/faq-section";
+import { FaqSection } from "@/components/features/shared/faq-section";
 
 export default function HomePage() {
     return (
@@ -29,7 +53,11 @@ export default function HomePage() {
                 </div>
 
                 {/* Dark sections on page bg */}
-                <InvestmentPlansSection />
+                <InvestmentPlansSection
+                    title="Оберіть інвестицію"
+                    description="На даний момент доступний один інвестиційний план, але ми не зупиняємося! Уже зовсім скоро ви зможете обирати серед ще двох нових можливостей для інвестування. Стежте за оновленнями!"
+                    plans={plans}
+                />
                 <StatisticsSection />
 
                 {/* FAQ - light card with rounded top over dark bg */}
