@@ -5,37 +5,13 @@ import { ProjectHistorySection } from "@/components/features/dashboard/sections/
 import { TransactionHistorySection } from "@/components/features/dashboard/sections/transaction-history-section";
 import { FaqSection } from "@/components/features/shared/faq-section";
 import { InvestmentPlansSection, type PlanCardData } from "@/components/features/shared/investment-plans-section";
-
-const plans: PlanCardData[] = [
-    {
-        title: "точкова інвестиція",
-        description: "Інвестиції в конкретний актив компанії",
-    },
-    {
-        title: "Загальний портфель",
-        description: "Інвестиція в загальний капітал проекту, який складається з наступних активів:",
-        isActive: true,
-        features: [
-            "Інвестиції в криптопроєкти",
-            "Торгівля на фючерсах і споті",
-            "Використання API забезпечення для автоматичної торгівлі",
-            "Стейкінг та депозити на перспективних монетах",
-            "Венчурні активи",
-        ],
-        disclaimer: "* Натискаючи кнопку, ви перейдете на форму для заповнення усіх деталей",
-    },
-    {
-        title: "Часткова інвестиція",
-        description: "Інвестиції в певну галузь портфелю компанії",
-    },
-];
 import { LandingFooter } from "@/components/layout/footer";
 import { useAuth } from "@/context/auth-context";
 import { useDashboard } from "@/context/dashboard-context";
 
 export default function DashboardPage() {
     const { user, isLoading } = useAuth();
-    const { openEditProfile } = useDashboard();
+    const { openEditProfile, offers } = useDashboard();
 
     if (isLoading) {
         return (
@@ -46,6 +22,11 @@ export default function DashboardPage() {
     }
 
     const fullName = user ? `${user.name} ${user.surname}` : "";
+
+    const plans: PlanCardData[] = offers.map((offer) => ({
+        title: offer.title,
+        description: offer.content ?? "",
+    }));
 
     return (
         <div className="min-h-dvh bg-white">

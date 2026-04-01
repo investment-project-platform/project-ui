@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Lato, Manrope, Mulish, Roboto } from "next/font/google";
+import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/auth-context";
 import { RouteProvider } from "@/providers/router-provider";
 import { Theme } from "@/providers/theme";
@@ -55,6 +56,7 @@ export default function RootLayout({
                         <AuthProvider>{children}</AuthProvider>
                     </Theme>
                 </RouteProvider>
+                <Toaster position="top-right" richColors />
             </body>
         </html>
     );

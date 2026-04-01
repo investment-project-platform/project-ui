@@ -1,7 +1,9 @@
 "use client";
 
 import { LineChartUp01, PieChart01, UserEdit, Wallet03 } from "@untitledui/icons";
+import { formatMoney } from "@projectua/project-core";
 import { StatCard } from "@/components/features/dashboard/stat-card";
+import { useDashboard } from "@/context/dashboard-context";
 
 interface GreetingSectionProps {
     fullName: string;
@@ -9,6 +11,10 @@ interface GreetingSectionProps {
 }
 
 export const GreetingSection = ({ fullName, onEditProfile }: GreetingSectionProps) => {
+    const { stats, statsLoading } = useDashboard();
+
+    const fmt = (value: number) => formatMoney(value, { currency: "USD" });
+
     return (
         <div
             className="overflow-hidden rounded-b-xl pt-28 pb-10 md:pt-32 px-4 md:px-8"
@@ -37,16 +43,26 @@ export const GreetingSection = ({ fullName, onEditProfile }: GreetingSectionProp
                 >
                     <div className="shrink-0 md:w-[378px]">
                         <h2 className="mb-6 font-display text-display-sm leading-[1.1] font-bold text-white md:text-display-md">Загальні дані проєктів:</h2>
-                        <p className="font-body text-lg leading-relaxed text-gray-cool-300">
-                            Наступне оновлення даних: <br />
-                            <span className="text-purple-500">02 березня 2025</span>
-                        </p>
                     </div>
-                    <div className="flex flex-wrap gap-4">
-                        <StatCard label="Мої вкладення:" value="$1,000" change="10% з попереднього кварталу" icon={Wallet03} />
-                        <StatCard label="Мої вкладення:" value="$1,000" change="10% з попереднього кварталу" icon={LineChartUp01} />
-                        <StatCard label="Мої вкладення:" value="15%" icon={PieChart01} />
-                    </div>
+                    {statsLoading ? (
+                        <div className="flex flex-wrap gap-4">
+                            {[0, 1, 2].map((i) => (
+                                <div key={i} className="flex w-[248px] animate-pulse flex-col gap-6 rounded-xl bg-white px-8 py-7">
+                                    <div className="flex items-center gap-2">
+                                        <div className="size-8 rounded-full bg-gray-200" />
+                                        <div className="h-5 w-24 rounded bg-gray-200" />
+                                    </div>
+                                    <div className="h-12 w-32 rounded bg-gray-200" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="flex flex-wrap gap-4">
+                            <StatCard label="Мої вкладення:" value={stats ? fmt(stats.totalInvested) : "—"} icon={Wallet03} />
+                            <StatCard label="Капіталізація:" value={stats ? fmt(stats.capitalization) : "—"} icon={LineChartUp01} />
+                            <StatCard label="Дивіденди:" value={stats ? fmt(stats.totalDividends) : "—"} icon={PieChart01} />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
