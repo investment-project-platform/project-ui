@@ -8,7 +8,7 @@
         "start": "next start"
     },
     "dependencies": {
-        "@projectua/project-backend-client": "^1.2.0",
+        "@projectua/project-backend-client": "^1.2.1",
         "@projectua/project-core": "^1.0.2",
         "@tailwindcss/postcss": "^4.1.18",
         "@tailwindcss/typography": "^0.5.19",
