@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail01 } from "@untitledui/icons";
+import { Eye, EyeOff, Mail01 } from "@untitledui/icons";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/base/buttons/button";
@@ -21,6 +21,7 @@ export default function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -66,7 +67,7 @@ export default function LoginPage() {
                                 wrapperClassName="!ring-gray-600"
                             />
                             <Input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 value={password}
                                 onChange={setPassword}
@@ -76,6 +77,16 @@ export default function LoginPage() {
                                 isRequired
                                 aria-label="Пароль"
                                 wrapperClassName="!ring-gray-600"
+                                trailingAdornment={
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword((v) => !v)}
+                                        className="text-gray-600 hover:text-gray-900 focus:outline-none"
+                                        aria-label={showPassword ? "Приховати пароль" : "Показати пароль"}
+                                    >
+                                        {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                                    </button>
+                                }
                             />
                         </div>
 

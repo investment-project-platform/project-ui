@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Eye, EyeOff } from "@untitledui/icons";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/base/buttons/button";
@@ -22,6 +23,8 @@ export default function SignupPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [passwordMismatch, setPasswordMismatch] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -99,7 +102,7 @@ export default function SignupPage() {
                     {/* Password row */}
                     <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
                         <Input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             name="password"
                             value={password}
                             onChange={setPassword}
@@ -107,9 +110,19 @@ export default function SignupPage() {
                             placeholder="***********"
                             variant="dark"
                             isRequired
+                            trailingAdornment={
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword((v) => !v)}
+                                    className="text-gray-500 hover:text-gray-400 focus:outline-none"
+                                    aria-label={showPassword ? "Приховати пароль" : "Показати пароль"}
+                                >
+                                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                                </button>
+                            }
                         />
                         <Input
-                            type="password"
+                            type={showConfirmPassword ? "text" : "password"}
                             name="confirmPassword"
                             value={confirmPassword}
                             onChange={(val) => {
@@ -122,6 +135,16 @@ export default function SignupPage() {
                             isRequired
                             isInvalid={passwordMismatch}
                             hint={passwordMismatch ? "Паролі не співпадають" : undefined}
+                            trailingAdornment={
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword((v) => !v)}
+                                    className="text-gray-500 hover:text-gray-400 focus:outline-none"
+                                    aria-label={showConfirmPassword ? "Приховати пароль" : "Показати пароль"}
+                                >
+                                    {showConfirmPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                                </button>
+                            }
                         />
                     </div>
 

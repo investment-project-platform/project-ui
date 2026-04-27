@@ -38,6 +38,8 @@ export interface InputBaseProps extends TextFieldProps {
     groupRef?: Ref<HTMLDivElement>;
     /** Icon component to display on the left side of the input. */
     icon?: ComponentType<HTMLAttributes<HTMLOrSVGElement>>;
+    /** Custom element rendered in the trailing position (e.g. a show/hide button). */
+    trailingAdornment?: ReactNode;
 }
 
 export const InputBase = ({
@@ -55,12 +57,13 @@ export const InputBase = ({
     tooltipClassName,
     inputClassName,
     iconClassName,
+    trailingAdornment,
     // Omit this prop to avoid invalid HTML attribute warning
     isRequired: _isRequired,
     ...inputProps
 }: Omit<InputBaseProps, "label" | "hint">) => {
     // Check if the input has a leading icon or tooltip
-    const hasTrailingIcon = tooltip || isInvalid;
+    const hasTrailingIcon = tooltip || isInvalid || trailingAdornment;
     const hasLeadingIcon = Icon;
 
     // If the input is inside a `TextFieldContext`, use its context to simplify applying styles
@@ -187,6 +190,13 @@ export const InputBase = ({
                 />
             )}
 
+            {/* Trailing adornment (e.g. password show/hide toggle) */}
+            {!isInvalid && !tooltip && trailingAdornment && (
+                <div className={cx("absolute flex items-center", sizes[inputSize].iconTrailing)}>
+                    {trailingAdornment}
+                </div>
+            )}
+
             {/* Shortcut */}
             {shortcut && (
                 <div
@@ -274,6 +284,7 @@ export const Input = ({
     inputClassName,
     wrapperClassName,
     tooltipClassName,
+    trailingAdornment,
     ...props
 }: InputProps) => {
     const isDark = variant === "dark";
@@ -302,6 +313,7 @@ export const Input = ({
                             wrapperClassName,
                             tooltipClassName,
                             tooltip,
+                            trailingAdornment,
                         }}
                     />
 
