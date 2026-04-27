@@ -60,7 +60,7 @@ export const ProjectHistorySection = () => {
                             </div>
                             <div className="flex flex-wrap gap-4">
                                 {[0, 1, 2].map((i) => (
-                                    <div key={i} className="flex w-[248px] flex-col gap-6 rounded-xl bg-white/60 px-8 py-7">
+                                    <div key={i} className="flex w-[260px] flex-col gap-6 rounded-xl bg-white/60 px-8 py-7">
                                         <div className="flex items-center gap-2">
                                             <div className="size-8 rounded-full bg-gray-300" />
                                             <div className="h-5 w-24 rounded bg-gray-300" />
@@ -108,8 +108,8 @@ export const ProjectHistorySection = () => {
                                             <p className="mt-3 font-body text-md leading-[22px] text-black">{slide.description ?? slide.status}</p>
                                         </div>
                                         <div className="flex flex-wrap gap-4">
-                                            <StatCard label="Вкладення:" value={formatMoney(slide.totalInvested, { currency: "USD" })} icon={Wallet03} />
-                                            <StatCard label="Капіталізація:" value={formatMoney(slide.capitalization, { currency: "USD" })} icon={LineChartUp01} />
+                                            <StatCard label="Вкладення:" value={formatMoney(slide.totalInvested, { currency: "USD" }).replace(/\.\d{2}$/, "")} icon={Wallet03} />
+                                            <StatCard label="Капіталізація:" value={formatMoney(slide.capitalization, { currency: "USD" }).replace(/\.\d{2}$/, "")} icon={LineChartUp01} />
                                             <StatCard label="Прибуток:" value={formatPercent(slide.profitPercentage, { decimals: 0 })} icon={PieChart01} />
                                         </div>
                                     </div>

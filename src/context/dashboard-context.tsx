@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import type { UserGeneralStats, UserProjectHistoryItem, UserTransactionHistoryItem, UserOffer } from "@projectua/project-backend-client";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
+import { useAuth } from "@/context/auth-context";
 
 interface DashboardContextValue {
     openEditProfile: () => void;
@@ -36,6 +37,8 @@ function toastError(err: unknown, label: string) {
 }
 
 export function DashboardDataProvider({ children, openEditProfile }: DashboardDataProviderProps) {
+    const { isLoading: isAuthLoading } = useAuth();
+
     const [stats, setStats] = useState<UserGeneralStats | null>(null);
     const [statsLoading, setStatsLoading] = useState(true);
 
@@ -52,6 +55,8 @@ export function DashboardDataProvider({ children, openEditProfile }: DashboardDa
     const [offersLoading, setOffersLoading] = useState(true);
 
     useEffect(() => {
+        if (isAuthLoading) return;
+
         let ignore = false;
 
         api.portfolio.getUserGeneralStats()
@@ -64,7 +69,7 @@ export function DashboardDataProvider({ children, openEditProfile }: DashboardDa
             .catch((err) => { if (!ignore) toastError(err, "Історія проєктів"); })
             .finally(() => { if (!ignore) setProjectsLoading(false); });
 
-        api.portfolio.getUserTransactionsHistory(1, 10)
+        api.portfolio.getUserTransactionsHistory({ page: 1, limit: 10 })
             .then((data) => {
                 if (!ignore) {
                     setTransactions(data?.data ?? []);
@@ -76,18 +81,18 @@ export function DashboardDataProvider({ children, openEditProfile }: DashboardDa
 
         api.portfolio.getUserOffers()
             .then((data) => { if (!ignore) setOffers(Array.isArray(data) ? data : []); })
-            .catch((err) => { if (!ignore) toastError(err, "Пропозиції"); })
+            .catch(() => { if (!ignore) setOffers([]); })
             .finally(() => { if (!ignore) setOffersLoading(false); });
 
         return () => { ignore = true; };
-    }, []);
+    }, [isAuthLoading]);
 
     async function loadMoreTransactions() {
         if (transactionsPage >= totalPages) return;
         setLoadingMore(true);
         try {
             const nextPage = transactionsPage + 1;
-            const data = await api.portfolio.getUserTransactionsHistory(nextPage, 10);
+            const data = await api.portfolio.getUserTransactionsHistory({ page: nextPage, limit: 10 });
             setTransactions((prev) => [...prev, ...(data?.data ?? [])]);
             setTransactionsPage(nextPage);
             setTotalPages(data?.meta?.totalPages ?? totalPages);
