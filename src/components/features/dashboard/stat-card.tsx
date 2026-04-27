@@ -14,7 +14,7 @@ export const StatCard = ({ label, value, change, icon: Icon, className }: StatCa
     return (
         <div
             className={cx(
-                "flex w-[248px] flex-col gap-6 rounded-xl bg-white px-8 py-7",
+                "flex min-w-[220px] shrink-0 flex-col gap-6 rounded-xl bg-white px-8 py-7",
                 className,
             )}
         >
@@ -26,7 +26,7 @@ export const StatCard = ({ label, value, change, icon: Icon, className }: StatCa
                 <span className="font-body text-lg text-black">{label}</span>
             </div>
             <div className="flex flex-col gap-2">
-                <span className="font-display text-[56px] font-semibold leading-none text-black">{value}</span>
+                <span className="font-display text-[44px] font-semibold leading-none text-black whitespace-nowrap">{value}</span>
                 {change && (
                     <div className="flex items-start">
                         <ArrowUpRight className="size-5 shrink-0 text-green-700" />

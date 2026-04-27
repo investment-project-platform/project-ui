@@ -13,7 +13,7 @@ interface GreetingSectionProps {
 export const GreetingSection = ({ fullName, onEditProfile }: GreetingSectionProps) => {
     const { stats, statsLoading } = useDashboard();
 
-    const fmt = (value: number) => formatMoney(value, { currency: "USD" });
+    const fmt = (value: number) => formatMoney(value, { currency: "USD" }).replace(/\.\d{2}$/, "");
 
     return (
         <div
@@ -47,7 +47,7 @@ export const GreetingSection = ({ fullName, onEditProfile }: GreetingSectionProp
                     {statsLoading ? (
                         <div className="flex flex-wrap gap-4">
                             {[0, 1, 2].map((i) => (
-                                <div key={i} className="flex w-[248px] animate-pulse flex-col gap-6 rounded-xl bg-white px-8 py-7">
+                                <div key={i} className="flex w-[260px] animate-pulse flex-col gap-6 rounded-xl bg-white px-8 py-7">
                                     <div className="flex items-center gap-2">
                                         <div className="size-8 rounded-full bg-gray-200" />
                                         <div className="h-5 w-24 rounded bg-gray-200" />
