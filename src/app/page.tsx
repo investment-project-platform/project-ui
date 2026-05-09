@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { LandingHeader } from "@/components/layout/header";
 import { LandingFooter } from "@/components/layout/footer";
 import { HeroSection } from "@/components/features/landing/sections/hero-section";
@@ -5,6 +6,7 @@ import { HowWeWorkSection } from "@/components/features/landing/sections/how-we-
 import { ProfitFormulaSection } from "@/components/features/landing/sections/profit-formula-section";
 import { CtaBanner } from "@/components/features/landing/sections/cta-banner";
 import { InvestmentPlansSection, type PlanCardData } from "@/components/features/shared/investment-plans-section";
+import { ScrollToSection } from "@/components/features/landing/scroll-to-section";
 
 const plans: PlanCardData[] = [
     {
@@ -36,6 +38,9 @@ export default function HomePage() {
     return (
         <div className="min-h-dvh bg-black">
             <LandingHeader />
+            <Suspense>
+                <ScrollToSection />
+            </Suspense>
 
             <main>
                 {/* Hero - fills the entire viewport */}

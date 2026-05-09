@@ -45,9 +45,9 @@ export const DashboardHeader = ({ onEditProfile }: DashboardHeaderProps) => {
                     "shadow-[0_4px_24px_rgba(0,0,0,0.2)]",
                 )}
             >
-                <Link href="/dashboard" className="relative z-10 shrink-0 cursor-pointer">
+                {/* <Link href="/dashboard" className="relative z-10 shrink-0 cursor-pointer"> */}
                     <Image src="/logo.svg" alt="Proєct" width={37} height={40} className="h-8 w-auto md:h-10" />
-                </Link>
+                {/* </Link> */}
 
                 <div className="relative z-10 hidden items-center gap-2 lg:flex">
                     <nav>

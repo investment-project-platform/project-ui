@@ -4,9 +4,22 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, LineChartUp01, PieChart01, Wallet03 } from "@untitledui/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { formatMoney, formatPercent } from "@projectua/project-core";
+import { BadgeWithDot } from "@/components/base/badges/badges";
+import type { BadgeColors } from "@/components/base/badges/badge-types";
 import { StatCard } from "@/components/features/dashboard/stat-card";
 import { useDashboard } from "@/context/dashboard-context";
 import { cx } from "@/utils/cx";
+
+const STATUS_MAP: Record<string, { color: BadgeColors; label: string }> = {
+    active:    { color: "success",   label: "Активний" },
+    completed: { color: "gray-blue", label: "Завершено" },
+    paused:    { color: "warning",   label: "Призупинено" },
+    cancelled: { color: "error",     label: "Скасовано" },
+};
+
+function getStatus(status: string) {
+    return STATUS_MAP[status?.toLowerCase()] ?? { color: "gray" as BadgeColors, label: status };
+}
 
 export const ProjectHistorySection = () => {
     const { projects, projectsLoading } = useDashboard();
@@ -105,7 +118,14 @@ export const ProjectHistorySection = () => {
                                         <div className="shrink-0 md:w-[368px]">
                                             <p className="font-display text-[40px] font-bold leading-none text-purple-800">Проєкт:</p>
                                             <h3 className="font-display text-[40px] font-bold leading-tight text-black">{slide.title}</h3>
-                                            <p className="mt-3 font-body text-md leading-[22px] text-black">{slide.description ?? slide.status}</p>
+                                            <div className="mt-3 flex flex-col gap-2">
+                                                <BadgeWithDot color={getStatus(slide.status).color} size="md">
+                                                    {getStatus(slide.status).label}
+                                                </BadgeWithDot>
+                                                {slide.description && (
+                                                    <p className="font-body text-md leading-[22px] text-black/60">{slide.description}</p>
+                                                )}
+                                            </div>
                                         </div>
                                         <div className="flex flex-wrap gap-4">
                                             <StatCard label="Вкладення:" value={formatMoney(slide.totalInvested, { currency: "USD" }).replace(/\.\d{2}$/, "")} icon={Wallet03} />
@@ -122,23 +142,23 @@ export const ProjectHistorySection = () => {
                             type="button"
                             onClick={prev}
                             className={cx(
-                                "absolute top-1/2 -left-10 hidden -translate-y-1/2 cursor-pointer items-center justify-center text-gray-blue-600 transition-opacity hover:opacity-70 md:flex",
-                                historySlide === 0 && "pointer-events-none opacity-30",
+                                "absolute top-1/2 left-0 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white shadow-md transition-all hover:shadow-lg md:flex",
+                                historySlide === 0 ? "pointer-events-none opacity-30" : "text-gray-blue-700",
                             )}
                             aria-label="Попередній проєкт"
                         >
-                            <ChevronLeft className="size-8" />
+                            <ChevronLeft className="size-5" />
                         </button>
                         <button
                             type="button"
                             onClick={next}
                             className={cx(
-                                "absolute top-1/2 -right-10 hidden -translate-y-1/2 cursor-pointer items-center justify-center text-gray-blue-600 transition-opacity hover:opacity-70 md:flex",
-                                historySlide >= projects.length - 1 && "pointer-events-none opacity-30",
+                                "absolute top-1/2 right-0 hidden h-10 w-10 -translate-y-1/2 translate-x-1/2 cursor-pointer items-center justify-center rounded-full bg-white shadow-md transition-all hover:shadow-lg md:flex",
+                                historySlide >= projects.length - 1 ? "pointer-events-none opacity-30" : "text-gray-blue-700",
                             )}
                             aria-label="Наступний проєкт"
                         >
-                            <ChevronRight className="size-8" />
+                            <ChevronRight className="size-5" />
                         </button>
                     </div>
                 )}

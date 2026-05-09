@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter, usePathname } from "next/navigation";
 import { Mail01 } from "@untitledui/icons";
 import BottomBanner from "@/assets/images/footer/bottom-banner.svg";
 import { Button } from "@/components/base/buttons/button";
@@ -44,6 +45,19 @@ const InstagramIcon = () => (
 );
 
 export const LandingFooter = () => {
+    const router = useRouter();
+    const pathname = usePathname();
+
+    function handleNavClick(e: React.MouseEvent, href: string) {
+        e.preventDefault();
+        const sectionId = href.slice(1);
+        if (pathname === "/") {
+            document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+        } else {
+            router.push(`/?section=${sectionId}`);
+        }
+    }
+
     return (
         <footer className="relative overflow-hidden rounded-t-xl bg-black px-6 pt-8 md:px-16 md:pt-12">
             <div className="mx-auto max-w-[1320px]">
@@ -68,6 +82,7 @@ export const LandingFooter = () => {
                                 <a
                                     key={item.href}
                                     href={item.href}
+                                    onClick={(e) => handleNavClick(e, item.href)}
                                     className="cursor-pointer rounded-2xl font-body text-md font-semibold text-white transition-colors hover:text-white/70"
                                 >
                                     {item.label}
@@ -101,7 +116,6 @@ export const LandingFooter = () => {
                             </a>
                         </div>
 
-                        <span className="font-body text-sm text-brand-500">proєct@gmail.com</span>
                     </div>
                 </div>
 

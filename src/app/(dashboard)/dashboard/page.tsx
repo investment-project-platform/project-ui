@@ -34,7 +34,7 @@ export default function DashboardPage() {
             <ProjectHistorySection />
             <TransactionHistorySection />
             <div className="relative z-10 -mt-6 overflow-hidden rounded-t-xl md:-mt-10">
-                <InvestmentPlansSection title="Пропозиції користувача" plans={plans} />
+                <InvestmentPlansSection id="proposals" title="Пропозиції користувача" plans={plans} />
             </div>
             <div className="relative z-20 -mt-6 md:-mt-10">
                 <FaqSection />

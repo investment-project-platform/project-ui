@@ -2,8 +2,31 @@
 
 import { Briefcase01, Calendar, ChevronDown, CoinsStacked01, File06 } from "@untitledui/icons";
 import { formatMoney, formatDate, TRANSACTION_TYPE_LABELS } from "@projectua/project-core";
+import { Badge, BadgeWithDot } from "@/components/base/badges/badges";
+import type { BadgeColors } from "@/components/base/badges/badge-types";
 import { Button } from "@/components/base/buttons/button";
 import { useDashboard } from "@/context/dashboard-context";
+
+const PAYMENT_METHOD_MAP: Record<string, { label: string; color: BadgeColors }> = {
+    bank_transfer:  { label: "Банківський переказ", color: "blue" },
+    card:           { label: "Картка",              color: "gray-blue" },
+    credit_card:    { label: "Кредитна картка",     color: "gray-blue" },
+    debit_card:     { label: "Дебетова картка",     color: "gray-blue" },
+    crypto:         { label: "Криптовалюта",        color: "purple" },
+    cash:           { label: "Готівка",             color: "success" },
+    wire_transfer:  { label: "Міжнародний переказ", color: "indigo" },
+};
+
+function PaymentMethodCell({ method }: { method: string | null | undefined }) {
+    if (!method) {
+        return <Badge color="gray" size="md" className="!ring-gray-400 !text-gray-700 !bg-gray-100">Не вказано</Badge>;
+    }
+    const mapped = PAYMENT_METHOD_MAP[method.toLowerCase()];
+    if (mapped) {
+        return <BadgeWithDot color={mapped.color} size="md">{mapped.label}</BadgeWithDot>;
+    }
+    return <Badge color="gray" size="md">{method}</Badge>;
+}
 
 export const TransactionHistorySection = () => {
     const {
@@ -94,7 +117,7 @@ export const TransactionHistorySection = () => {
                                 {transactions.map((tx) => (
                                     <tr key={tx.id} className="border-b border-gray-100">
                                         <td className="py-4 pr-4 font-body text-md text-black">{TRANSACTION_TYPE_LABELS[tx.type]}</td>
-                                        <td className="py-4 pr-4 font-body text-md font-semibold text-black">{tx.paymentMethod ?? "—"}</td>
+                                        <td className="py-4 pr-4"><PaymentMethodCell method={tx.paymentMethod} /></td>
                                         <td className="w-40 py-4 pr-4 font-body text-md text-black">{formatDate(tx.createdAt)}</td>
                                         <td className="w-28 py-4 pr-4 text-right font-body text-md text-black">{formatMoney(tx.amount, { currency: "USD" })}</td>
                                     </tr>

@@ -84,12 +84,13 @@ interface InvestmentPlansSectionProps {
     title: string;
     description?: string;
     plans: PlanCardData[];
+    id?: string;
 }
 
-export const InvestmentPlansSection = ({ title, description, plans }: InvestmentPlansSectionProps) => {
+export const InvestmentPlansSection = ({ title, description, plans, id = "plans" }: InvestmentPlansSectionProps) => {
     return (
         <section
-            id="plans"
+            id={id}
             className="px-4 py-16 md:px-16 md:py-24"
             style={{
                 background: "radial-gradient(circle at 50% 50%, #1E234E 0%, #111325 100%)",
@@ -142,9 +143,9 @@ export const InvestmentPlansSection = ({ title, description, plans }: Investment
 
                 {/* Plan cards */}
                 <div className="mt-16 flex flex-col items-center gap-6 lg:flex-row">
-                    {plans.map((plan) => (
+                    {plans.map((plan, i) => (
                         <motion.div
-                            key={plan.title}
+                            key={i}
                             variants={{
                                 hidden: { opacity: 0, y: 30 },
                                 visible: { opacity: 1, y: 0 },
